@@ -248,7 +248,7 @@
       <div id="supplier" class="slide">
           <div class="content-card">
             <h5>Daftar Supplier</h5>
-            @yield('content-supplier')
+            @yield('content1')
           </div>
       </div>
 
