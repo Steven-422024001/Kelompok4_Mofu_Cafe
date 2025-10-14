@@ -11,3 +11,6 @@ Route::resource('/products', \App\Http\Controllers\ProductController::class);
 
 //route resource for suppliers
 Route::resource('suppliers', \App\Http\Controllers\SupplierController::class);
+
+//route resource for transaksi
+Route::resource('transaksi', \App\Http\Controllers\TransaksiController::class);
