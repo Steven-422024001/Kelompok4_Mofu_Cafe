@@ -1,43 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Transaksi - Mofu Cafe</title>
-    {{-- Menggunakan Bootstrap 5 dan Bootstrap Icons dari CDN --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body { background-color: #f8f9fa; }
-        .kpi-card .card-body {
-            display: flex;
-            align-items: center;
-        }
-        .kpi-card .icon-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 15px;
-        }
-        .transaction-card {
-            transition: transform 0.2s ease-in-out;
-        }
-        .transaction-card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</head>
-<body>
-<div class="container py-4">
+@extends('layouts.app')
+
+@section('title', 'Dashboard Transaksi - Mofu Cafe')
+
+@section('content')
+<div class="content-card">
 
     {{-- Header dan Tombol Aksi --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2">Dashboard Transaksi</h1>
-        <a href="{{ route('transaksi.create') }}" class="btn btn-primary shadow-sm">
+        <h1 class="h5 fw-bold mb-0">Dashboard Transaksi</h1>
+        <a href="{{ route('transaksi.create') }}" class="btn btn-success shadow-sm">
             <i class="bi bi-plus-circle-fill me-2"></i>Buat Transaksi Baru
         </a>
     </div>
@@ -49,12 +20,12 @@
         </div>
     @endif
 
-    {{-- Bagian KPI (Key Performance Indicator) Cards --}}
+    {{-- Bagian KPI --}}
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
-            <div class="card kpi-card shadow-sm">
-                <div class="card-body">
-                    <div class="icon-circle bg-success text-white">
+            <div class="card kpi-card shadow-sm border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="icon-circle bg-success text-white me-3">
                         <i class="bi bi-cash-coin"></i>
                     </div>
                     <div>
@@ -65,9 +36,9 @@
             </div>
         </div>
         <div class="col-md-6 mb-3">
-            <div class="card kpi-card shadow-sm">
-                <div class="card-body">
-                    <div class="icon-circle bg-primary text-white">
+            <div class="card kpi-card shadow-sm border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="icon-circle bg-primary text-white me-3">
                         <i class="bi bi-receipt"></i>
                     </div>
                     <div>
@@ -79,13 +50,12 @@
         </div>
     </div>
 
-
-    {{-- Bagian Daftar Transaksi (Card-based) --}}
-    <h2 class="h4 mb-3">Riwayat Transaksi Terbaru</h2>
+    {{-- Daftar Transaksi --}}
+    <h2 class="h5 fw-bold mb-3">Riwayat Transaksi Terbaru</h2>
     <div class="row">
         @forelse ($transaksis as $trx)
         <div class="col-lg-6 mb-4">
-            <div class="card transaction-card shadow-sm">
+            <div class="card transaction-card shadow-sm border-0">
                 <div class="card-header bg-white d-flex justify-content-between align-items-center">
                     <span class="fw-bold">Transaksi #{{ $trx->id }}</span>
                     <span class="text-muted small">
@@ -102,44 +72,79 @@
                             </p>
                             <p class="mb-0">
                                 <i class="bi bi-credit-card-fill me-2 text-muted"></i>
-                                Bayar via: <span class="badge bg-info">{{ $trx->metode_pembayaran }}</span>
+                                Bayar via: <span class="badge bg-info text-dark-emphasis">{{ $trx->metode_pembayaran }}</span>
                             </p>
                         </div>
                         <div class="text-end">
-                            <h5 class="mb-1 text-success">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</h5>
+                            <h5 class="mb-1 text-success fw-bold">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</h5>
                             <small class="text-muted">{{ count($trx->details) }} {{ Str::plural('item', count($trx->details)) }}</small>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer bg-light text-end">
-                    <form onsubmit="return confirm('Apakah Anda Yakin ingin menghapus transaksi ini?');" action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline">
+                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline form-delete">
                         <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-sm btn-outline-dark">Detail</a>
                         <a href="{{ route('transaksi.edit', $trx->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-delete">Hapus</button>
                     </form>
                 </div>
             </div>
         </div>
         @empty
         <div class="col-12">
-            <div class="card text-center py-5">
+            <div class="card text-center py-5 border-0 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Belum Ada Transaksi</h5>
-                    <p class="card-text">Silakan buat transaksi baru untuk memulai.</p>
+                    <p class="card-text text-muted">Silakan buat transaksi baru untuk memulai.</p>
                 </div>
             </div>
         </div>
         @endforelse
     </div>
 
-    {{-- Link Paginasi --}}
     <div class="d-flex justify-content-center mt-4">
-        {{ $transaksis->links() }}
+        {!! $transaksis->links('pagination::bootstrap-5') !!}
     </div>
 </div>
+@endsection
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@section('scripts')
+    {{-- SweetAlert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const form = this.closest('form');
+
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data transaksi akan dihapus permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            timer: 2000,
+            showConfirmButton: false
+        });
+        @endif
+    </script>
+@endsection

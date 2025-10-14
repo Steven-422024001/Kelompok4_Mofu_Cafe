@@ -29,7 +29,7 @@
                 <tbody>
                     @foreach($transaksi->details as $detail)
                     <tr>
-                        <td>{{ $detail->product->product_name ?? 'N/A' }}</td>
+                        <td>{{ $detail->product->title ?? 'N/A' }}</td>
                         <td>{{ $detail->jumlah_pembelian }}</td>
                         <td>Rp {{ number_format($detail->product->price ?? 0, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($detail->subtotal_harga, 0, ',', '.') }}</td>
@@ -41,7 +41,7 @@
             <h4 class="text-end">Grand Total: Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</h4>
         </div>
         <div class="card-footer">
-            <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Kembali ke Daftar Transaksi</a>
+            <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Back To List</a>
         </div>
     </div>
 </div>

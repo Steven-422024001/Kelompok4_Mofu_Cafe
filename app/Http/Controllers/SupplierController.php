@@ -16,13 +16,11 @@ class SupplierController extends Controller
      */
     public function index(): View
     {
-        // Ambil semua data supplier dari database (terbaru di atas)
+        //get all suppliers
         $suppliers = Supplier::latest()->paginate(10);
 
-        // Tampilkan ke halaman layout utama dan arahkan ke bagian supplier
-        return view('layouts.app', [
-            'suppliers' => $suppliers,
-        ]);
+        //render view with suppliers
+        return view('suppliers.index', compact('suppliers'));
     }
 
     /**
@@ -43,6 +41,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // 1. Validasi data input dari form
         $request->validate([
             'supplier_name' => 'required|string|min:3',
             'contact_name'  => 'nullable|string|min:3',
@@ -51,6 +50,7 @@ class SupplierController extends Controller
             'notes'         => 'nullable|string',
         ]);
 
+        // 2. Insert data ke database
         Supplier::create([
             'supplier_name' => $request->supplier_name,
             'contact_name'  => $request->contact_name,
@@ -59,6 +59,7 @@ class SupplierController extends Controller
             'notes'         => $request->notes,
         ]);
 
+        // 3. Redirect ke halaman index dengan pesan sukses
         return redirect()->route('suppliers.index')
                          ->with('success', 'Data Supplier Berhasil Disimpan!');
     }
@@ -71,7 +72,10 @@ class SupplierController extends Controller
      */
     public function show(string $id): View
     {
+        //get supplier by ID
         $supplier = Supplier::findOrFail($id);
+
+        //render view with supplier
         return view('suppliers.show', compact('supplier'));
     }
 
@@ -83,7 +87,10 @@ class SupplierController extends Controller
      */
     public function edit(string $id): View
     {
+        //get supplier by ID
         $supplier = Supplier::findOrFail($id);
+
+        //render view with supplier
         return view('suppliers.edit', compact('supplier'));
     }
 
@@ -96,23 +103,28 @@ class SupplierController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
+        // 1. Validasi data input dari form
         $request->validate([
             'supplier_name' => 'required|string|min:3',
-            'contact_name'  => 'nullable|string|min:3',
-            'phone'         => 'required|string|min:10',
-            'address'       => 'required|string|min:10',
-            'notes'         => 'nullable|string',
+            'contact_name'   => 'nullable|string|min:3',
+            'phone'       => 'required|string|min:10',
+            'address'        => 'required|string|min:10',
+            'notes'    => 'nullable|string',
         ]);
 
+        // 2. Dapatkan data supplier berdasarkan ID
         $supplier = Supplier::findOrFail($id);
+
+        // 3. Update data di database
         $supplier->update([
             'supplier_name' => $request->supplier_name,
-            'contact_name'  => $request->contact_name,
-            'phone'         => $request->phone,
-            'address'       => $request->address,
-            'notes'         => $request->notes,
+            'contact_name'   => $request->contact_name,
+            'phone'       => $request->phone,
+            'address'        => $request->address,
+            'notes'    => $request->notes,
         ]);
 
+        // 4. Redirect ke halaman index dengan pesan sukses
         return redirect()->route('suppliers.index')
                          ->with('success', 'Data Supplier Berhasil Diubah!');
     }
@@ -125,9 +137,13 @@ class SupplierController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        // 1. Dapatkan data supplier berdasarkan ID
         $supplier = Supplier::findOrFail($id);
+
+        // 2. Hapus data supplier
         $supplier->delete();
 
+        // 3. Redirect ke halaman index dengan pesan sukses
         return redirect()->route('suppliers.index')
                          ->with('success', 'Data Supplier Berhasil Dihapus!');
     }

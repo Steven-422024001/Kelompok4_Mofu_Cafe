@@ -26,7 +26,7 @@ class Product extends Model
     public function get_product(){
         $sql = $this->select(
                     "products.*",
-                    "category_product.product_category_name as product_category_name",
+                    "category_product.name as product_category_name",
                     "supplier.supplier_name as supplier_name"
                 )
                 ->leftjoin('category_product', 'category_product.id', '=', 'products.product_category_id')

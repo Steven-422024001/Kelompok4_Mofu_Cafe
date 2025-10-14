@@ -36,7 +36,7 @@
                                     @foreach ($product['categories'] as $category)
                                     <option value="{{ $category->id }}" 
                                     @if(old("product_category_id", $data['product']->product_category_id) == $category->id) selected @endif >
-                                    {{ $category->product_category_name }}</option>
+                                    {{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('product_category_id')
@@ -111,8 +111,9 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-md btn-primary me-3">UPDATE</button>
+                            <button type="submit" class="btn btn-md btn-secondary">UPDATE</button>
                             <button type="reset" class="btn btn-md btn-warning">RESET</button>
+                            <button href="{{ route('products.index') }}" class="btn btn-secondary">Batal</button>
 
                         </form>
                     </div>

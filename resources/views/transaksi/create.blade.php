@@ -58,14 +58,14 @@
                 <div class="col-md-5">
                     <select name="products[${productCounter}][id]" class="form-select product-select" required>
                         <option value="">Pilih Produk</option>
-                        ${products.map(p => `<option value="${p.id}" data-price="${p.price}">${p.product_name}</option>`).join('')}
+                        ${products.map(p => `<option value="${p.id}" data-price="${p.price}">${p.title}</option>`).join('')}
                     </select>
                 </div>
                 <div class="col-md-2">
                     <input type="number" name="products[${productCounter}][jumlah]" class="form-control quantity-input" value="1" min="1" required>
                 </div>
                 <div class="col-md-3">
-                    <input type="text" class="form-control subtotal-display" readonly>
+                    <input type="text" class="form-control subtotal-display" readonly value="Rp 0">
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-danger remove-product-btn">Hapus</button>
@@ -115,7 +115,7 @@
             grandTotalEl.textContent = total.toLocaleString('id-ID');
         }
         
-        // Add one product row by default
+        // Tambahkan satu baris produk default saat halaman dibuka
         addProductRow();
     });
 </script>
