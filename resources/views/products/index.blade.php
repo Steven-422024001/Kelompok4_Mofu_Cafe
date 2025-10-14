@@ -1,98 +1,81 @@
-<DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Products</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: lightgray">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h3 class="text-center my-4">Tutorial Laravel 12 - Products</h3>
-                    <hr>
-                </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <a href="{{ route('products.create') }}" class="btn btn-md btn-success mb-3">ADD PRODUCT </a>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">IMAGE</th>
-                                    <th scope="col">TITLE</th>
-                                    <th scope="col">SUPPLIER</th>
-                                    <th scope="col">CATEGORY</th>
-                                    <th scope="col">PRICE</th>
-                                    <th scope="col">STOCK</th>
-                                    <th scope="col" style="width: 20%">ACTIONS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($products as $product)
-                                    <tr>
-                                        <td class="text-center">
-                                            <img src="{{ asset('/storage/images/'.$product->image) }}" class="rounded" style="width: 150px">
-                                        </td>
-                                        <td>{{ $product->title }}</td>
-                                        <td>{{ $product->supplier_name }}</td>
-                                        <td>{{ $product->product_category_name }}</td>
-                                        <td>{{ "Rp " . number_format($product->price,2,',','.') }}</td>
-                                        <td>{{ $product->stock }}</td>
-                                        <td class="text-center">
-                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST">
-                                                <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" id="btn-delete" class="btn btn-sm btn-danger">HAPUS</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @empty
-                                        <div class="alert alert-danger">
-                                            Data Products belum tersedia
-                                        </div>
-                                    @endforelse
-                            </tbody>
-                        </table>
-                        {{ $products->links() }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+@extends('layouts.app')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        //message with sweetalert
-        @if(session('success'))
-            Swal.fire({
-                icon: "success",
-                title: "BERHASIL",
-                text: "{{ session('success') }}",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        @elseif(session('error'))
-            Swal.fire({
-                icon: "error",
-                title: "GAGAL",
-                text: "{{ session('error') }}",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        @endif
+@section('content')
+<div class="container">
+    <a href="{{ route('products.create') }}" class="btn btn-success mb-3">Add Product</a>
+    <table class="table table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>IMAGE</th>
+                <th>TITLE</th>
+                <th>SUPPLIER</th>
+                <th>CATEGORY</th>
+                <th>PRICE</th>
+                <th>STOCK</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($products as $product)
+                <tr>
+                    <td><img src="{{ asset('storage/images/' . $product->image) }}" width="100"></td>
+                    <td>{{ $product->title }}</td>
+                    <td>{{ $product->supplier_name }}</td>
+                    <td>{{ $product->product_category_name }}</td>
+                    <td>{{ "Rp " . number_format($product->price, 2, ',', '.') }}</td>
+                    <td>{{ $product->stock }}</td>
+                    <td>
+                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-dark btn-sm">SHOW</a>
+                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">EDIT</a>
+                        <form onsubmit="return false;" action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline form-delete">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm btn-delete">HAPUS</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="7" class="text-center text-muted">Data kosong</td></tr>
+            @endforelse
+        </tbody>
+    </table>
 
-        // SWAL FIRE
-        const deleteButtons = document.querySelectorAll('#btn-delete');
+    {{ $products->links() }}
+</div>
+@endsection
+
+@section('scripts')
+<!-- Bootstrap & SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // SweetAlert message success/error
+    @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "GAGAL",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
+
+    // Konfirmasi hapus dengan SweetAlert
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+
         deleteButtons.forEach(button => {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
-
                 const form = this.closest('form');
 
                 Swal.fire({
@@ -111,7 +94,6 @@
                 });
             });
         });
-    </script>
-
-</body>
-</html>
+    });
+</script>
+@endsection

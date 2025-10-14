@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
-//route resource for products
-Route::resource('/products', \App\Http\Controllers\ProductController::class);
+// route untuk halaman produk
+Route::resource('products', ProductController::class);
+
+

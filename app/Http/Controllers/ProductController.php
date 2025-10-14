@@ -67,7 +67,7 @@ class ProductController extends Controller
     {
         // 1. Validasi data input dari form
         $validatedData = $request->validate([
-            'image'               => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image'               => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'title'               => 'required|min:5',
             'product_category_id' => 'required|integer', 
             'supplier_id'         => 'required|integer',
@@ -149,7 +149,7 @@ class ProductController extends Controller
     {
         //validate form
         $request->validate([
-            'image'         => 'image|mimes:jpeg,jpg,png|max:2048',
+            'image'         => 'image|mimes:jpeg,jpg,png,webp|max:2048',
             'title'         => 'required|min:5',
             'description'   => 'required|min:10',
             'price'         => 'required|numeric',
