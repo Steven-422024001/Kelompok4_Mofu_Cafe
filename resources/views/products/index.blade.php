@@ -28,8 +28,8 @@
                     <td>{{ $product->title }}</td>
 
                     {{-- 2. Mengambil nama dari objek relasi --}}
-                    <td>{{ $product->supplier->supplier_name ?? 'N/A' }}</td>
-                    <td>{{ $product->category->category_name ?? 'N/A' }}</td>
+                    <td>{{ $product->supplier_name ?? 'N/A' }}</td>
+                    <td>{{ $product->product_category_name ?? 'N/A' }}</td>
                     
                     <td>{{ "Rp " . number_format($product->price, 0, ',', '.') }}</td>
                     <td>{{ $product->stock }}</td>

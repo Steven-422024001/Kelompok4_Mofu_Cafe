@@ -12,8 +12,8 @@
         <a href="{{ route('suppliers.index') }}" class="{{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
             <i class="fa-solid fa-truck-fast"></i> Supplier
         </a>
-        <a href="{{ route('suppliers.index') }}" class="{{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-category-fast"></i> Category
+        <a href="{{ route('category.index') }}" class="{{ request()->routeIs('category.*') ? 'active' : '' }}">
+            <i class="fa-solid fa-tags"></i> Category
         </a>
         <a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'active' : '' }}">
             <i class="fa-solid fa-receipt"></i> Transaksi
