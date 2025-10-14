@@ -180,7 +180,7 @@ class ProductController extends Controller
             $request_data = [
                 'title'                 => $request->title,
                 'product_category_id'   => $request->product_category_id,
-                'supplier_id'           => $request->id_supplier,
+                'supplier_id'           => $request->supplier_id,
                 'description'           => $request->description,
                 'price'                 => $request->price,
                 'stock'                 => $request->stock

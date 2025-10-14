@@ -18,7 +18,9 @@
         <tbody>
             @forelse ($products as $product)
                 <tr>
-                    <td><img src="{{ asset('storage/images/' . $product->image) }}" width="100"></td>
+                    <td class="text-center">
+                        <img src="{{ asset('storage/images/' . $product->image) }}" class="rounded" style="width: 100px">
+                    </td>
                     <td>{{ $product->title }}</td>
                     <td>{{ $product->supplier_name }}</td>
                     <td>{{ $product->product_category_name }}</td>
@@ -27,7 +29,7 @@
                     <td>
                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-dark btn-sm">SHOW</a>
                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">EDIT</a>
-                        <form onsubmit="return false;" action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline form-delete">
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline form-delete">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm btn-delete">HAPUS</button>
@@ -35,7 +37,9 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" class="text-center text-muted">Data kosong</td></tr>
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
