@@ -231,5 +231,6 @@
     });
 </script>
 @yield('scripts')
+@yield('content')
 </body>
 </html>

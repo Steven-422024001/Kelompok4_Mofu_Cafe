@@ -44,13 +44,11 @@ class ProductController extends Controller
     */
     public function create(): View
     {
-        // Mengambil semua kategori
         $categoryModel = new Category_product;
-        $data['categories'] = $categoryModel->get_category_product()->get(); 
+        $data['categories'] = \App\Models\Category_product::all(); 
 
-        // Mengambil semua supplier
         $supplierModel = new Supplier;
-        $data['suppliers'] = $supplierModel->get_supplier()->get();
+        $data['suppliers'] = \App\Models\Supplier::all();
 
         return view('products.create', compact('data')); 
     }
@@ -132,7 +130,7 @@ class ProductController extends Controller
         $product['categories'] = $categoryModel->get_category_product()->get();
 
         $supplierModel = new Supplier; 
-        $product['suppliers_'] = $supplierModel->get_supplier()->get();
+        $product['suppliers'] = $supplierModel->get_supplier()->get();
 
         return view('products.edit', compact('data', 'product'));
     }
