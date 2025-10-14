@@ -8,5 +8,3 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 
 // route untuk halaman produk
 Route::resource('products', ProductController::class);
-
-
