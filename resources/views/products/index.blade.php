@@ -6,7 +6,9 @@
 <div class="content-card">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Product Overview</h5>
-        <a href="{{ route('products.create') }}" class="btn btn-success">Add Product</a>
+                <a href="{{ route('products.create') }}" class="btn btn-add-new">
+            <i class="fas fa-plus"></i> Add Product
+        </a>
     </div>
 
     <table class="table table-bordered table-hover align-middle">

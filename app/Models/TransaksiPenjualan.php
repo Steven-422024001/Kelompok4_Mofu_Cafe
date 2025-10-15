@@ -11,17 +11,27 @@ class TransaksiPenjualan extends Model
     use HasFactory;
 
     /**
-     * Mendefinisikan nama tabel secara eksplisit
-     * (Sebenarnya tidak perlu jika nama model sudah sesuai konvensi)
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'nama_kasir',
+        'nama_pembeli',
+        'metode_pembayaran',
+        'total_harga',
+    ];
+
+    /**
+     * Nama tabel yang digunakan.
      */
     protected $table = 'transaksi_penjualan';
 
     /**
-     * Relasi "one-to-many": Satu Transaksi memiliki BANYAK Detail Transaksi.
+     * Relasi one-to-many ke DetailTransaksiPenjualan.
      */
     public function details(): HasMany
     {
-        // Parameter kedua adalah nama foreign key di tabel detail_transaksi_penjualan
         return $this->hasMany(DetailTransaksiPenjualan::class, 'id_transaksi_penjualan');
     }
 }

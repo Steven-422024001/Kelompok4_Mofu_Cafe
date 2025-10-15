@@ -8,17 +8,10 @@
     {{-- Header dan Tombol Aksi --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h5 fw-bold mb-0">Dashboard Transaksi</h1>
-        <a href="{{ route('transaksi.create') }}" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-circle-fill me-2"></i>Buat Transaksi Baru
+        <a href="{{ route('transaksi.create') }}" class="btn btn-add-new">
+            <i class="fas fa-plus"></i> Add Transaction
         </a>
     </div>
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     {{-- Bagian KPI (Key Performance Indicator) Cards --}}
     <div class="row mb-4">
@@ -49,7 +42,6 @@
             </div>
         </div>
     </div>
-
 
     {{-- Bagian Daftar Transaksi (Card-based) --}}
     <h2 class="h5 fw-bold mb-3">Riwayat Transaksi Terbaru</h2>
@@ -83,7 +75,8 @@
                     </div>
                 </div>
                 <div class="card-footer bg-light text-end">
-                    <form onsubmit="return confirm('Apakah Anda Yakin ingin menghapus transaksi ini?');" action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline">
+                    {{-- 1. Menghapus onsubmit bawaan dan menambahkan class 'form-delete' --}}
+                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline form-delete">
                         <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-sm btn-outline-dark">Detail</a>
                         <a href="{{ route('transaksi.edit', $trx->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                         @csrf
@@ -113,5 +106,43 @@
 @endsection
 
 @section('scripts')
-    {{-- Tidak perlu menambahkan script Bootstrap lagi karena sudah ada di layout utama --}}
+{{-- 2. Menambahkan script SweetAlert yang Anda berikan --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Notifikasi dari session (setelah create/update/delete)
+        @if(session('success'))
+            Swal.fire({
+                icon: "success", title: "BERHASIL", text: "{{ session('success') }}",
+                showConfirmButton: false, timer: 2000
+            });
+        @elseif(session('error'))
+            Swal.fire({
+                icon: "error", title: "GAGAL", text: "{{ session('error') }}",
+                showConfirmButton: false, timer: 2000
+            });
+        @endif
+
+        // Konfirmasi hapus untuk setiap form dengan class '.form-delete'
+        document.querySelectorAll('.form-delete').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Yakin hapus data ini?',
+                    text: "Data yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endsection

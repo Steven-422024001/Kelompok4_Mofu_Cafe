@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // Route untuk halaman utama/dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route untuk semua fitur CRUD (Create, Read, Update, Delete)
 Route::resource('products', ProductController::class);
