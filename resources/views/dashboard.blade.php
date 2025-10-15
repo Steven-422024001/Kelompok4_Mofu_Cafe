@@ -10,6 +10,7 @@
         font-family: 'Poppins', sans-serif;
     }
 
+    /* Sambutan */
     h5.fw-bold {
         color: #1e293b;
     }
@@ -24,6 +25,7 @@
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
     }
 
+    /* Icon bulat di KPI */
     .icon-circle {
         width: 50px;
         height: 50px;
@@ -36,18 +38,21 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
     }
 
+    /* Kartu konten utama */
     .content-card {
         border-radius: 20px;
         border: none;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
     }
 
+    /* Grafik */
     .chart-container {
         position: relative;
         height: 350px;
         max-height: 350px;
     }
 
+    /* List Aktivitas */
     .list-group-item {
         border: none;
         border-bottom: 1px solid #f1f5f9;
@@ -67,6 +72,7 @@
         padding: 0.5em 0.8em;
     }
 
+    /* Warna badge lembut */
     .bg-success-subtle {
         background-color: #d1fae5 !important;
     }
@@ -75,6 +81,7 @@
         color: #065f46 !important;
     }
 
+    /* Responsif */
     @media (max-width: 768px) {
         .icon-circle {
             width: 45px;
@@ -159,7 +166,6 @@
 
 {{-- Konten Utama: Grafik dan Aktivitas Terbaru --}}
 <div class="row">
-    {{-- Kolom Grafik --}}
     <div class="col-lg-8 mb-4">
         <div class="card content-card h-100">
             <div class="card-body">
@@ -171,7 +177,6 @@
         </div>
     </div>
 
-    {{-- Kolom Aktivitas Terbaru --}}
     <div class="col-lg-4 mb-4">
         <div class="card content-card h-100">
             <div class="card-body">
