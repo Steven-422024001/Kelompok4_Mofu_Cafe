@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Transaksi - Mofu Cafe')
+@section('title', 'Manajemen Transaksi - Mofu Cafe')
 
 @section('page-title', 'Manajemen Transaksi')
 
