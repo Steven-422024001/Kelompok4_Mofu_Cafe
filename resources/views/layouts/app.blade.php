@@ -197,21 +197,6 @@
             color: var(--mofu-dark-text);
         }
        
-        /*
-==============================================
-  CSS Transisi untuk Swup.js
-==============================================
-*/
-.transition-fade {
-    transition: 0.4s;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-html.is-animating .transition-fade {
-    opacity: 0;
-    transform: translateY(20px);
-}
         
     </style>
     @stack('styles') {{-- Slot untuk CSS tambahan per halaman --}}
@@ -228,14 +213,6 @@ html.is-animating .transition-fade {
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @yield('scripts')
-
-<script src="https://unpkg.com/swup@4"></script>
-<script src="https://unpkg.com/@swup/head-plugin@2"></script>
-<script>
-    const swup = new Swup({
-        plugins: [new SwupHeadPlugin()]
-    });
-</script>
 
 </body>
 </html>
