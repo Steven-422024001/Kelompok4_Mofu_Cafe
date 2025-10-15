@@ -8,11 +8,12 @@
     {{-- Header dan Tombol Aksi --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h5 fw-bold mb-0">Dashboard Transaksi</h1>
-        <a href="{{ route('transaksi.create') }}" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-circle-fill me-2"></i>Buat Transaksi Baru
+        <a href="{{ route('transaksi.create') }}" class="btn btn-add-new">
+            <i class="fas fa-plus"></i> Add Transaction
         </a>
     </div>
 
+    {{-- Notifikasi Sukses --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -20,7 +21,7 @@
         </div>
     @endif
 
-    {{-- Bagian KPI --}}
+    {{-- Bagian KPI (Key Performance Indicator) --}}
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <div class="card kpi-card shadow-sm border-0">
@@ -72,12 +73,19 @@
                             </p>
                             <p class="mb-0">
                                 <i class="bi bi-credit-card-fill me-2 text-muted"></i>
-                                Bayar via: <span class="badge bg-info text-dark-emphasis">{{ $trx->metode_pembayaran }}</span>
+                                Bayar via: 
+                                <span class="badge bg-info text-dark-emphasis">
+                                    {{ $trx->metode_pembayaran }}
+                                </span>
                             </p>
                         </div>
                         <div class="text-end">
-                            <h5 class="mb-1 text-success fw-bold">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</h5>
-                            <small class="text-muted">{{ count($trx->details) }} {{ Str::plural('item', count($trx->details)) }}</small>
+                            <h5 class="mb-1 text-success fw-bold">
+                                Rp {{ number_format($trx->total_harga, 0, ',', '.') }}
+                            </h5>
+                            <small class="text-muted">
+                                {{ count($trx->details) }} {{ Str::plural('item', count($trx->details)) }}
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -111,40 +119,49 @@
 @endsection
 
 @section('scripts')
-    {{-- SweetAlert2 --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Notifikasi dari session
+    @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil!",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
 
-    <script>
-        document.querySelectorAll('.btn-delete').forEach(button => {
-            button.addEventListener('click', function (e) {
-                e.preventDefault();
-                const form = this.closest('form');
-
-                Swal.fire({
-                    title: 'Yakin ingin menghapus?',
-                    text: "Data transaksi akan dihapus permanen!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+    // Konfirmasi hapus
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const form = this.closest('form');
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data transaksi akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
             });
         });
-
-        @if (session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: '{{ session('success') }}',
-            timer: 2000,
-            showConfirmButton: false
-        });
-        @endif
-    </script>
+    });
+});
+</script>
 @endsection

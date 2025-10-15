@@ -8,7 +8,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\CategoryController;
 
 // Route untuk halaman utama/dashboard
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Route resource untuk fitur CRUD
 Route::resource('products', ProductController::class);

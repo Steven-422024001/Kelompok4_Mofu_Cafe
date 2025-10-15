@@ -2,36 +2,35 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category_product extends Model
 {
-    protected $table = 'category_product';
-    protected $fillable = ['name', 'description'];
-
-    public function get_category_product()
-    {
-        return $this->select('*');
-    }
-
-    public function storeCategory($request)
-    {
-        return $this->create([
-            'name'        => $request->name,
-            'description' => $request->description
-        ]);
-    }
+    use HasFactory;
 
     /**
-     * Update data kategori
+     * Nama tabel yang digunakan.
      */
-    public function updateCategory($id, $request)
-    {
-        $category = $this->findOrFail($id);
+    protected $table = 'Category_product'; 
 
-        return $category->update([
-            'name'        => $request->name,
-            'description' => $request->description
-        ]);
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    /**
+     * Mendefinisikan relasi 'satu Kategori punya banyak Produk'.
+     * Ini WAJIB ada agar withCount('products') berfungsi.
+     */
+    public function products()
+    {
+        // Ganti 'category_id' dengan nama foreign key Anda di tabel 'products'
+        return $this->hasMany(Product::class, 'product_category_id');
     }
 }

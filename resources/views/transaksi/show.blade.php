@@ -1,49 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detail Transaksi #{{ $transaksi->id }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h3>Detail Transaksi #{{ $transaksi->id }}</h3>
+@extends('layouts.app')
+@section('title', 'Detail Transaksi #' . $transaksi->id)
+
+@section('content')
+<div class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-1">Detail Transaksi #{{ $transaksi->id }}</h5>
+            <p class="text-muted mb-0">
+                Tanggal: {{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('d F Y, H:i:s') }}
+            </p>
         </div>
-        <div class="card-body">
-            <p><strong>ID Transaksi:</strong> {{ $transaksi->id }}</p>
-            <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('d F Y, H:i:s') }}</p>
-            <p><strong>Nama Kasir:</strong> {{ $transaksi->nama_kasir }}</p>
-            <p><strong>Nama Pembeli:</strong> {{ $transaksi->nama_pembeli ?? '-' }}</p>
-            <hr>
-            <h4>Item yang Dibeli:</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Jumlah</th>
-                        <th>Harga Satuan</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($transaksi->details as $detail)
-                    <tr>
-                        <td>{{ $detail->product->title ?? 'N/A' }}</td>
-                        <td>{{ $detail->jumlah_pembelian }}</td>
-                        <td>Rp {{ number_format($detail->product->price ?? 0, 0, ',', '.') }}</td>
-                        <td>Rp {{ number_format($detail->subtotal_harga, 0, ',', '.') }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <hr>
-            <h4 class="text-end">Grand Total: Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</h4>
+        <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label class="small text-muted">Kasir</label>
+            <p>{{ $transaksi->nama_kasir }}</p>
         </div>
-        <div class="card-footer">
-            <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Back To List</a>
+        <div class="col-md-6">
+            <label class="small text-muted">Pembeli</label>
+            <p>{{ $transaksi->nama_pembeli ?? '-' }}</p>
         </div>
     </div>
+    
+    <h5 class="fw-bold">Item yang Dibeli</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produk</th>
+                <th>Jumlah</th>
+                <th>Harga Satuan</th>
+                <th class="text-end">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($transaksi->details as $detail)
+            <tr>
+                <td>{{ $detail->product->title ?? 'N/A' }}</td>
+                <td>{{ $detail->jumlah_pembelian }}</td>
+                <td>Rp {{ number_format($detail->product->price ?? 0, 0, ',', '.') }}</td>
+                <td class="text-end">Rp {{ number_format($detail->subtotal_harga, 0, ',', '.') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+        <tfoot>
+            <tr class="fw-bold">
+                <td colspan="3" class="text-end border-0">Grand Total:</td>
+                <td class="text-end border-0 fs-5">Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
+            </tr>
+        </tfoot>
+    </table>
 </div>
-</body>
-</html>
+@endsection

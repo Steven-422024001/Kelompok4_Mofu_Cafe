@@ -100,59 +100,67 @@
 {{-- KPI Cards --}}
 <div class="row">
     <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card kpi-card shadow-sm border-0 h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="icon-circle bg-success text-white">
-                    <i class="bi bi-cash-coin"></i>
-                </div>
-                <div>
-                    <h6 class="card-subtitle mb-1 text-muted">Pendapatan Hari Ini</h6>
-                    <h4 class="card-title mb-0 text-dark">Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</h4>
+        <a href="{{ route('transaksi.index') }}" class="text-decoration-none">
+            <div class="card kpi-card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-success text-white">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-1 text-muted">Pendapatan Hari Ini</h6>
+                        <h4 class="card-title mb-0 text-dark">Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</h4>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card kpi-card shadow-sm border-0 h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="icon-circle bg-primary text-white">
-                    <i class="bi bi-receipt"></i>
-                </div>
-                <div>
-                    <h6 class="card-subtitle mb-1 text-muted">Transaksi Hari Ini</h6>
-                    <h4 class="card-title mb-0 text-dark">{{ $jumlahTransaksiHariIni }} Transaksi</h4>
+        <a href="{{ route('transaksi.index') }}" class="text-decoration-none">
+            <div class="card kpi-card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-primary text-white">
+                        <i class="bi bi-receipt"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-1 text-muted">Transaksi Hari Ini</h6>
+                        <h4 class="card-title mb-0 text-dark">{{ $jumlahTransaksiHariIni }} Transaksi</h4>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card kpi-card shadow-sm border-0 h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="icon-circle bg-warning text-white">
-                    <i class="bi bi-box-seam"></i>
-                </div>
-                <div>
-                    <h6 class="card-subtitle mb-1 text-muted">Total Produk</h6>
-                    <h4 class="card-title mb-0 text-dark">{{ $totalProduk }} Jenis</h4>
+        <a href="{{ route('products.index') }}" class="text-decoration-none">
+            <div class="card kpi-card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-warning text-white">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-1 text-muted">Total Produk</h6>
+                        <h4 class="card-title mb-0 text-dark">{{ $totalProduk }} Jenis</h4>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <div class="col-md-6 col-lg-3 mb-4">
-        <div class="card kpi-card shadow-sm border-0 h-100">
-            <div class="card-body d-flex align-items-center gap-3">
-                <div class="icon-circle bg-danger text-white">
-                    <i class="bi bi-truck"></i>
-                </div>
-                <div>
-                    <h6 class="card-subtitle mb-1 text-muted">Total Supplier</h6>
-                    <h4 class="card-title mb-0 text-dark">{{ $totalSupplier }} Supplier</h4>
+        <a href="{{ route('suppliers.index') }}" class="text-decoration-none">
+            <div class="card kpi-card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="icon-circle bg-danger text-white">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div>
+                        <h6 class="card-subtitle mb-1 text-muted">Total Supplier</h6>
+                        <h4 class="card-title mb-0 text-dark">{{ $totalSupplier }} Supplier</h4>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 
