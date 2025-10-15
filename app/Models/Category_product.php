@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category_product extends Model
+class category_product extends Model
 {
     use HasFactory;
 
     /**
      * Nama tabel yang digunakan.
      */
-    protected $table = 'Category_product'; 
+    protected $table = 'c2ategory_product'; 
 
     /**
      * The attributes that are mass assignable.
