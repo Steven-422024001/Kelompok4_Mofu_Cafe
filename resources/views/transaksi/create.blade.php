@@ -29,11 +29,14 @@
                 {{-- Grid Produk --}}
                 <div class="product-grid">
                     @foreach($products as $product)
-                    <div class="card product-card" onclick="addToBill({{ $product->id }}, '{{ $product->title }}', {{ $product->price }})">
+                    <div class="card product-card" 
+                        onclick="addToBill({{ $product->id }}, '{{ $product->title }}', {{ $product->price }})">
                         <img src="{{ asset('storage/images/' . $product->image) }}" class="card-img-top">
                         <div class="card-body p-2">
                             <h6 class="card-title small fw-bold mb-1">{{ $product->title }}</h6>
-                            <p class="card-text small text-muted">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                            <p class="card-text small text-muted">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                            </p>
                         </div>
                     </div>
                     @endforeach
@@ -45,20 +48,24 @@
         <div class="col-lg-5">
             <div class="content-card">
                 <h5 class="fw-bold mb-3">Bill Details</h5>
+
                 {{-- Info Kasir, dll --}}
                 <div class="mb-3">
                     <label for="nama_kasir" class="form-label small">Nama Kasir</label>
-                    <input type="text" class="form-control" id="nama_kasir" name="nama_kasir" value="Admin Mofu" required>
+                    <input type="text" class="form-control" id="nama_kasir" name="nama_kasir" 
+                        value="Admin Mofu" required>
                 </div>
                 <div class="mb-3">
                     <label for="nama_pembeli" class="form-label small">Nama Pembeli (Opsional)</label>
                     <input type="text" class="form-control" id="nama_pembeli" name="nama_pembeli">
                 </div>
                 <hr>
+
                 {{-- Daftar Item Tagihan --}}
                 <div id="bill-items">
                     <p class="text-center text-muted">Belum ada item dipilih.</p>
                 </div>
+
                 {{-- Total --}}
                 <div class="border-top pt-3 mt-3">
                     <div class="d-flex justify-content-between">
@@ -66,6 +73,7 @@
                         <span id="grand-total" class="fw-bold">Rp 0</span>
                     </div>
                 </div>
+
                 {{-- Metode Pembayaran & Tombol Submit --}}
                 <div class="mt-4">
                     <label for="metode_pembayaran" class="form-label small">Metode Pembayaran</label>
@@ -76,6 +84,7 @@
                     </select>
                     <div class="d-grid mt-3">
                         <button type="submit" class="btn btn-primary">Process Transaction</button>
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-warning mt-2">Batal</a>
                     </div>
                 </div>
             </div>
@@ -86,10 +95,9 @@
 
 @section('scripts')
 <script>
-    let bill = {}; // Objek untuk menyimpan data tagihan
+    let bill = {}; // Menyimpan item yang dipilih
     const billItemsContainer = document.getElementById('bill-items');
     const grandTotalEl = document.getElementById('grand-total');
-    const form = document.getElementById('transaction-form');
 
     function addToBill(id, title, price) {
         if (bill[id]) {
@@ -130,9 +138,11 @@
                             <small class="text-muted">Rp ${item.price.toLocaleString('id-ID')}</small>
                         </div>
                         <div class="d-flex align-items-center">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${id}, -1)">-</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                onclick="updateQuantity(${id}, -1)">-</button>
                             <span class="mx-2">${item.jumlah}</span>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${id}, 1)">+</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                onclick="updateQuantity(${id}, 1)">+</button>
                         </div>
                     </div>
                     <input type="hidden" name="products[${index}][id]" value="${item.id}">
@@ -141,6 +151,7 @@
                 billItemsContainer.innerHTML += itemHtml;
             });
         }
+
         grandTotalEl.textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
     }
 </script>

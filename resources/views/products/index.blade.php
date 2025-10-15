@@ -1,16 +1,19 @@
 @extends('layouts.app')
 
 @section('title', 'Daftar Produk')
+@section('page-title', 'Product Management')
 
 @section('content')
 <div class="content-card">
+    {{-- Header Halaman --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">Product Overview</h5>
-                <a href="{{ route('products.create') }}" class="btn btn-add-new">
+        <a href="{{ route('products.create') }}" class="btn btn-add-new">
             <i class="fas fa-plus"></i> Add Product
         </a>
     </div>
 
+    {{-- Tabel Produk --}}
     <table class="table table-bordered table-hover align-middle">
         <thead class="table-light">
             <tr>
@@ -28,12 +31,10 @@
                 <tr>
                     <td><img src="{{ asset('storage/images/' . $product->image) }}" width="100" class="rounded"></td>
                     <td>{{ $product->title }}</td>
-
-                    {{-- 2. Mengambil nama dari objek relasi --}}
+                    {{-- Mengambil nama dari relasi --}}
                     <td>{{ $product->supplier_name ?? 'N/A' }}</td>
                     <td>{{ $product->product_category_name ?? 'N/A' }}</td>
-                    
-                    <td>{{ "Rp " . number_format($product->price, 0, ',', '.') }}</td>
+                    <td>{{ 'Rp ' . number_format($product->price, 0, ',', '.') }}</td>
                     <td>{{ $product->stock }}</td>
                     <td class="text-center">
                         <form onsubmit="return false;" action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline form-delete">
@@ -46,12 +47,14 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" class="text-center text-muted">Data produk kosong.</td></tr>
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Data produk kosong.</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
 
-    {{-- Menampilkan link paginasi dengan style Bootstrap 5 --}}
+    {{-- Paginasi --}}
     <div class="d-flex justify-content-center">
         {!! $products->links('pagination::bootstrap-5') !!}
     </div>
@@ -59,23 +62,28 @@
 @endsection
 
 @section('scripts')
-{{-- Script SweetAlert Anda sudah benar, tidak perlu diubah --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    // SweetAlert message success/error
+    // Notifikasi sukses atau gagal
     @if(session('success'))
         Swal.fire({
-            icon: "success", title: "BERHASIL", text: "{{ session('success') }}",
-            showConfirmButton: false, timer: 2000
+            icon: "success",
+            title: "BERHASIL",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
         });
     @elseif(session('error'))
         Swal.fire({
-            icon: "error", title: "GAGAL", text: "{{ session('error') }}",
-            showConfirmButton: false, timer: 2000
+            icon: "error",
+            title: "GAGAL",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
         });
     @endif
 
-    // Konfirmasi hapus dengan SweetAlert
+    // Konfirmasi hapus data
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.form-delete').forEach(form => {
             form.addEventListener('submit', function (e) {
@@ -83,9 +91,12 @@
                 Swal.fire({
                     title: 'Yakin hapus data ini?',
                     text: "Data yang dihapus tidak bisa dikembalikan!",
-                    icon: 'warning', showCancelButton: true,
-                    confirmButtonColor: '#d33', cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, hapus!', cancelButtonText: 'Batal'
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.submit();

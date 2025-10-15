@@ -1,15 +1,13 @@
 @extends('layouts.app')
 
 @section('title', 'Daftar Kategori - Mofu Cafe')
+@section('page-title', 'Category Management')
 
-{{-- 1. Mendorong (push) stylesheet khusus untuk halaman ini ke layout utama --}}
 @push('styles')
-    <style>
-        /*
-    ==============================================
-    STYLING KHUSUS HALAMAN INDEKS KATEGORI
-    ==============================================
-    */
+<style>
+    /* ==============================================
+       STYLING KHUSUS HALAMAN INDEKS KATEGORI
+    ============================================== */
     .category-card {
         background-color: #fff;
         border: 2px solid var(--mofu-light-border);
@@ -69,7 +67,23 @@
         gap: 0.5rem;
         justify-content: flex-end;
     }
-    </style>
+
+    /* Tombol aksi */
+    .action-buttons a, .action-buttons button {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.375rem;
+    }
+    .action-buttons .btn-dark { background-color: #e2e8f0; color: #4a5568; border: none; }
+    .action-buttons .btn-dark:hover { background-color: #cbd5e1; }
+    .action-buttons .btn-primary { background-color: #e0e7ff; color: #4338ca; border: none; }
+    .action-buttons .btn-primary:hover { background-color: #c7d2fe; }
+    .action-buttons .btn-danger { background-color: #fee2e2; color: #b91c1c; border: none; }
+    .action-buttons .btn-danger:hover { background-color: #fecaca; }
+</style>
 @endpush
 
 @section('content')
@@ -97,20 +111,28 @@
                             </div>
                             <div>
                                 <h5 class="category-card__title">{{ $category->name }}</h5>
-                                <h6 class="category-card__subtitle">{{ $category->products_count }} {{ Str::plural('Item', $category->products_count) }}</h6>
+                                <h6 class="category-card__subtitle">
+                                    {{ $category->products_count }} {{ Str::plural('Item', $category->products_count) }}
+                                </h6>
                             </div>
                         </div>
                         <p class="category-card__description">
                             {!! Str::limit($category->description, 60, '...') !!}
                         </p>
-                        <div class="category-card__actions">
-                             <a href="{{ route('category.show', $category->id) }}" class="btn btn-sm btn-dark" title="Show"><i class="fas fa-eye"></i></a>
-                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                             <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="form-delete">
-                                 @csrf
-                                 @method('DELETE')
-                                 <button type="submit" class="btn btn-sm btn-danger btn-delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                             </form>
+                        <div class="category-card__actions action-buttons">
+                            <a href="{{ route('category.show', $category->id) }}" class="btn btn-sm btn-dark" title="Show">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-primary" title="Edit">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="form-delete">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger btn-delete" title="Delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -123,7 +145,7 @@
             </div>
         @endforelse
     </div>
-    
+
     {{-- Link Paginasi --}}
     <div class="d-flex justify-content-center mt-4">
         {!! $categories->links('pagination::bootstrap-5') !!}
@@ -132,24 +154,29 @@
 @endsection
 
 @section('scripts')
-{{-- Script SweetAlert Anda tetap di sini dan tidak perlu diubah --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Notifikasi dari session (setelah create/update/delete)
+        // 🔔 Notifikasi dari session
         @if(session('success'))
             Swal.fire({
-                icon: "success", title: "BERHASIL", text: "{{ session('success') }}",
-                showConfirmButton: false, timer: 2000
+                icon: "success",
+                title: "BERHASIL",
+                text: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2000
             });
         @elseif(session('error'))
             Swal.fire({
-                icon: "error", title: "GAGAL", text: "{{ session('error') }}",
-                showConfirmButton: false, timer: 2000
+                icon: "error",
+                title: "GAGAL",
+                text: "{{ session('error') }}",
+                showConfirmButton: false,
+                timer: 2000
             });
         @endif
 
-        // Konfirmasi hapus untuk setiap form dengan class '.form-delete'
+        // 🗑️ Konfirmasi hapus
         document.querySelectorAll('.form-delete').forEach(form => {
             form.addEventListener('submit', function (e) {
                 e.preventDefault();

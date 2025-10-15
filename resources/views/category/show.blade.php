@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Category Details')
+@section('page-title', 'Category Details')
 
 @section('content')
 <div class="content-card">
@@ -10,8 +11,12 @@
             <h5 class="fw-bold mb-1">Category Details</h5>
         </div>
         <div>
-            <a href="{{ route('category.index') }}" class="btn btn-secondary">Back to List</a>
-            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">Edit Category</a>
+            <a href="{{ route('category.index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to List
+            </a>
+            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary">
+                <i class="fas fa-pencil-alt me-1"></i> Edit Category
+            </a>
         </div>
     </div>
 

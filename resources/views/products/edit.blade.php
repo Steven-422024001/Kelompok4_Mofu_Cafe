@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit Products</title>
+    <title>Edit Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="background: lightgray">
@@ -19,71 +19,70 @@
                             @csrf
                             @method('PUT')
 
+                            {{-- Upload Gambar --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">IMAGE</label>
                                 <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
                                 @error('image')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            {{-- Kategori Produk --}}
                             <div class="form-group mb-3">
                                 <label for="product_category_id">Product Category</label>
                                 <select class="form-control" id="product_category_id" name="product_category_id">
                                     <option value="">-- Select Category Product --</option>
                                     @foreach ($product['categories'] as $category)
-                                    <option value="{{ $category->id }}" 
-                                    @if(old("product_category_id", $data['product']->product_category_id) == $category->id) selected @endif >
-                                    {{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" 
+                                            @if(old("product_category_id", $data['product']->product_category_id) == $category->id) selected @endif>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('product_category_id')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            {{-- Supplier --}}
                             <div class="form-group mb-3">
                                 <label for="supplier_id">Supplier</label>
                                 <select class="form-control" id="supplier_id" name="supplier_id">
                                     <option value="">-- Select Supplier --</option>
                                     @foreach ($product['suppliers_'] as $supplier)
-                                    <option value="{{ $supplier->id }}" @if(old("supplier_id", $data['product']->supplier_id) == $supplier->id)
-                                    selected @endif >{{ $supplier->supplier_name }}</option>
+                                        <option value="{{ $supplier->id }}" 
+                                            @if(old("supplier_id", $data['product']->supplier_id) == $supplier->id) selected @endif>
+                                            {{ $supplier->supplier_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('supplier_id')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            {{-- Judul --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">TITLE</label>
                                 <input type="text" class="form-control @error('title') is-invalid @enderror" name="title"
                                     value="{{ old('title', $data['product']->title) }}" placeholder="Masukkan Judul Product">
                                 @error('title')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            {{-- Deskripsi --}}
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">DESCRIPTION</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="5"
                                     placeholder="Masukkan Description Product">{{ old('description', $data['product']->description) }}</textarea>
                                 @error('description')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            {{-- Harga & Stok --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
@@ -91,28 +90,27 @@
                                         <input type="number" class="form-control @error('price') is-invalid @enderror" name="price"
                                             value="{{ old('price', $data['product']->price) }}" placeholder="Masukkan Harga Product">
                                         @error('price')
-                                        <div class="alert alert-danger mt-2">
-                                            {{ $message }}
-                                        </div>
+                                            <div class="alert alert-danger mt-2">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="font-weight-bold">STOCK</label>
                                         <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock"
                                             value="{{ old('stock', $data['product']->stock) }}" placeholder="Masukkan Stock Product">
                                         @error('stock')
-                                        <div class="alert alert-danger mt-2">
-                                            {{ $message }}
-                                        </div>
+                                            <div class="alert alert-danger mt-2">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
                             </div>
 
+                            {{-- Tombol --}}
                             <button type="submit" class="btn btn-md btn-primary me-3">UPDATE</button>
-                            <button type="reset" class="btn btn-md btn-warning">RESET</button>
+                            <button type="reset" class="btn btn-md btn-warning me-3">RESET</button>
+                            <a href="{{ route('products.index') }}" class="btn btn-secondary">BATAL</a>
 
                         </form>
                     </div>

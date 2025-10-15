@@ -6,7 +6,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h5 class="fw-bold mb-1">Detail Transaksi #{{ $transaksi->id }}</h5>
-            <p class="text-muted mb-0">Tanggal: {{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('d F Y, H:i:s') }}</p>
+            <p class="text-muted mb-0">
+                Tanggal: {{ \Carbon\Carbon::parse($transaksi->tanggal_transaksi)->format('d F Y, H:i:s') }}
+            </p>
         </div>
         <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">Back to List</a>
     </div>

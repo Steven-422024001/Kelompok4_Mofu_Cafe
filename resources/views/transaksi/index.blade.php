@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard Transaksi - Mofu Cafe')
+@section('page-title', 'Transaction Management')
 
 @section('content')
 <div class="content-card">
@@ -13,12 +14,20 @@
         </a>
     </div>
 
-    {{-- Bagian KPI (Key Performance Indicator) Cards --}}
+    {{-- Notifikasi Sukses --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- Bagian KPI (Key Performance Indicator) --}}
     <div class="row mb-4">
         <div class="col-md-6 mb-3">
             <div class="card kpi-card shadow-sm border-0">
-                <div class="card-body">
-                    <div class="icon-circle bg-success text-white">
+                <div class="card-body d-flex align-items-center">
+                    <div class="icon-circle bg-success text-white me-3">
                         <i class="bi bi-cash-coin"></i>
                     </div>
                     <div>
@@ -30,8 +39,8 @@
         </div>
         <div class="col-md-6 mb-3">
             <div class="card kpi-card shadow-sm border-0">
-                <div class="card-body">
-                    <div class="icon-circle bg-primary text-white">
+                <div class="card-body d-flex align-items-center">
+                    <div class="icon-circle bg-primary text-white me-3">
                         <i class="bi bi-receipt"></i>
                     </div>
                     <div>
@@ -43,7 +52,7 @@
         </div>
     </div>
 
-    {{-- Bagian Daftar Transaksi (Card-based) --}}
+    {{-- Daftar Transaksi --}}
     <h2 class="h5 fw-bold mb-3">Riwayat Transaksi Terbaru</h2>
     <div class="row">
         @forelse ($transaksis as $trx)
@@ -65,23 +74,27 @@
                             </p>
                             <p class="mb-0">
                                 <i class="bi bi-credit-card-fill me-2 text-muted"></i>
-                                Bayar via: <span class="badge bg-info text-dark-emphasis">{{ $trx->metode_pembayaran }}</span>
+                                Bayar via: 
+                                <span class="badge bg-info text-dark-emphasis">{{ $trx->metode_pembayaran }}</span>
                             </p>
                         </div>
                         <div class="text-end">
-                            <h5 class="mb-1 text-success fw-bold">Rp {{ number_format($trx->total_harga, 0, ',', '.') }}</h5>
-                            <small class="text-muted">{{ count($trx->details) }} {{ Str::plural('item', count($trx->details)) }}</small>
+                            <h5 class="mb-1 text-success fw-bold">
+                                Rp {{ number_format($trx->total_harga, 0, ',', '.') }}
+                            </h5>
+                            <small class="text-muted">
+                                {{ count($trx->details) }} {{ Str::plural('item', count($trx->details)) }}
+                            </small>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer bg-light text-end">
-                    {{-- 1. Menghapus onsubmit bawaan dan menambahkan class 'form-delete' --}}
-                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline form-delete">
+                    <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" class="d-inline">
                         <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-sm btn-outline-dark">Detail</a>
                         <a href="{{ route('transaksi.edit', $trx->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-delete">Hapus</button>
                     </form>
                 </div>
             </div>
@@ -106,43 +119,49 @@
 @endsection
 
 @section('scripts')
-{{-- 2. Menambahkan script SweetAlert yang Anda berikan --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Notifikasi dari session (setelah create/update/delete)
-        @if(session('success'))
-            Swal.fire({
-                icon: "success", title: "BERHASIL", text: "{{ session('success') }}",
-                showConfirmButton: false, timer: 2000
-            });
-        @elseif(session('error'))
-            Swal.fire({
-                icon: "error", title: "GAGAL", text: "{{ session('error') }}",
-                showConfirmButton: false, timer: 2000
-            });
-        @endif
+document.addEventListener('DOMContentLoaded', function () {
+    // Notifikasi dari session
+    @if(session('success'))
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil!",
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: "error",
+            title: "Gagal!",
+            text: "{{ session('error') }}",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    @endif
 
-        // Konfirmasi hapus untuk setiap form dengan class '.form-delete'
-        document.querySelectorAll('.form-delete').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Yakin hapus data ini?',
-                    text: "Data yang dihapus tidak bisa dikembalikan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                });
+    // Konfirmasi hapus
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            const form = this.closest('form');
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data transaksi akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
             });
         });
     });
+});
 </script>
 @endsection
