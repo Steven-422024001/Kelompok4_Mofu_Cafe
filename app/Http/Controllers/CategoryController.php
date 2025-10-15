@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category_product;
 use Illuminate\View\View;
+
+//import return type redirectResponse
 use Illuminate\Http\RedirectResponse;
+
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,11 +17,13 @@ class CategoryController extends Controller
     *
     * @return void
     */
-    public function index(): View
+    public function index() : View
     {
-        $categories = Category_product::withCount('products')->latest()->paginate(8); 
-        
-        // Mengirim data ke view
+        //get all categories
+        $category = new Category_product;
+        $categories = $category->get_category_product()->orderBy('id', 'asc')->paginate(10);
+
+        //render view with categories
         return view('category.index', compact('categories'));
     }
 
@@ -43,20 +48,25 @@ class CategoryController extends Controller
     * @param  Request $request
     * @return RedirectResponse
     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // 1. Validate the incoming data from the form
-        $validatedData = $request->validate([
-            'name'          => 'required|string|max:255',
-            'description'   => 'nullable|string',
-            // Add other validation rules for your fields
+        // Validasi data input
+        $request->validate([
+            'name'        => 'required|min:3',
+            'description' => 'nullable|string'
         ]);
 
-        // 2. Use the Model's built-in create() method to store the data
-        $category = Category_product::create($validatedData);
+        // Simpan ke database
+        $category = new Category_product;
+        $insertCategory = $category->storeCategory($request);
 
-        // 3. Redirect the user back with a success message
-        return redirect()->route('category.index')->with('success', 'Category created successfully!');
+        if ($insertCategory) {
+            return redirect()->route('category.index')
+                             ->with('success', 'Kategori berhasil ditambahkan!');
+        }
+
+        return redirect()->route('category.index')
+                         ->with('error', 'Gagal menyimpan kategori.');
     }
 
     /**
@@ -118,7 +128,7 @@ class CategoryController extends Controller
      */
    public function destroy($id): RedirectResponse
 {
-    $deleted = Category_product::where('id', $id)->delete();
+    $deleted = \App\Models\Category_product::where('id', $id)->delete();
 
     if ($deleted) {
         return redirect()->route('category.index')->with('success', 'Data kategori berhasil dihapus!');

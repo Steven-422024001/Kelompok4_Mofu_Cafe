@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('title', 'Supplier Management - Mofu Cafe')
+@section('page-title', 'Supplier Management')
 
 @push('styles')
 <style>
     .summary-card {
         background-color: #fff;
         border: 2px solid var(--mofu-light-border);
-        border-radius: 40px;
+        border-radius: 0.75rem;
         padding: 1.25rem;
         display: flex;
         align-items: center;
@@ -49,7 +50,7 @@
 @endpush
 
 @section('content')
-<div class="content-card">
+
     {{-- Bagian 1: Ringkasan Status (KPI Cards) --}}
     <div class="row mb-5">
         {{-- Card Total Suppliers --}}

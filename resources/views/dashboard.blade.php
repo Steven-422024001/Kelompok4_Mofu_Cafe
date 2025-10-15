@@ -166,7 +166,6 @@
 
 {{-- Konten Utama: Grafik dan Aktivitas Terbaru --}}
 <div class="row">
-    {{-- Kolom Grafik --}}
     <div class="col-lg-8 mb-4">
         <div class="card content-card h-100">
             <div class="card-body">
@@ -178,7 +177,6 @@
         </div>
     </div>
 
-    {{-- Kolom Aktivitas Terbaru --}}
     <div class="col-lg-4 mb-4">
         <div class="card content-card h-100">
             <div class="card-body">
@@ -205,7 +203,6 @@
 @endsection
 
 @section('scripts')
-{{-- Memuat library Chart.js --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
