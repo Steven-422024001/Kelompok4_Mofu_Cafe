@@ -12,7 +12,7 @@ class category_product extends Model
     /**
      * Nama tabel yang digunakan.
      */
-    protected $table = 'c2ategory_product'; 
+    protected $table = 'category_product'; 
 
     /**
      * The attributes that are mass assignable.
