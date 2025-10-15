@@ -1,78 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add New Category</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background: lightgray;">
+@extends('layouts.app')
 
-    <div class="container mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="text-center">Add New Category</h3>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <form id="categoryForm" action="{{ route('category.store') }}" method="POST">
-                            @csrf
+@section('title', 'Add New Category')
 
-                            {{-- NAMA KATEGORI --}}
-                            <div class="form-group mb-3">
-                                <label class="font-weight-bold">CATEGORY NAME</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control @error('name') is-invalid @enderror" 
-                                    name="name" 
-                                    value="{{ old('name') }}" 
-                                    placeholder="Masukkan Nama Kategori">
-                                @error('name')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            {{-- DESKRIPSI --}}
-                            <div class="form-group mb-3">
-                                <label class="font-weight-bold">DESCRIPTION</label>
-                                <textarea 
-                                    class="form-control @error('description') is-invalid @enderror" 
-                                    name="description" 
-                                    id="description" 
-                                    rows="5" 
-                                    placeholder="Masukkan Deskripsi Kategori">{{ old('description') }}</textarea>
-                                @error('description')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            {{-- TOMBOL --}}
-                            <button type="submit" class="btn btn-md btn-primary me-3">SAVE</button>
-                            <button type="button" id="resetBtn" onclick="resetForm()" class="btn btn-md btn-warning">RESET</button>
-                            <a href="{{ route('category.index') }}" class="btn btn-md btn-secondary">BACK</a>
-                        </form>
-                    </div>
-                </div>
-            </div>
+@section('content')
+<div class="content-card">
+    {{-- Header Halaman --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-1">Add New Category</h5>
+            <p class="text-muted mb-0">Buat kategori baru untuk produk Anda.</p>
         </div>
+        <a href="{{ route('category.index') }}" class="btn btn-outline-secondary">Back to List</a>
     </div>
 
-    {{-- SCRIPT --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('description');
+    {{-- Form --}}
+    <form id="categoryForm" action="{{ route('category.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="name" class="form-label fw-semibold">CATEGORY NAME</label>
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="e.g., Coffee, Non-Coffee, Pastry">
+            @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label fw-semibold">DESCRIPTION</label>
+            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="5" placeholder="Masukkan deskripsi singkat mengenai kategori ini">{{ old('description') }}</textarea>
+            @error('description')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mt-4 border-top pt-4">
+            <button type="submit" class="btn btn-primary">SAVE CATEGORY</button>
+            <a href="{{ route('category.index') }}" class="btn btn-secondary">CANCEL</a>
+        </div>
+    </form>
+</div>
+@endsection
 
-        function resetForm() {
-            document.getElementById("categoryForm").reset();
-            for (var instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].setData('');
-            }
-        }
-    </script>
-</body>
-</html>
+@section('scripts')
+<script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description');
+</script>
+@endsection

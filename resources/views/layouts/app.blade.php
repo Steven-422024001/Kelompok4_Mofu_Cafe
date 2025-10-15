@@ -1,127 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Mofu Cafe Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>@yield('title', 'Mofu Cafe Dashboard')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-    /* ===== PENGATURAN DASAR ===== */
-    body {
-      margin: 0;
-      background-color: #efefefff; /* Warna latar belakang abu-abu muda seperti di gambar */
-      font-family: 'Inter', sans-serif; /* Font yang lebih modern dan mirip gambar */
-    }
+    {{-- Di sini kita akan menaruh semua CSS --}}
+    <style>
+        :root {
+            /* Palet Warna Mofusand */
+            --mofu-blue-bg: #e0f2f7; 
+            --mofu-blue-text: #5a7d9a; 
+            --mofu-dark-text: #303f56; 
+            --mofu-text-muted: #6c757d;
+            --mofu-yellow-accent: #ffb347; 
+            --mofu-light-border: #d0e6ed; 
+            --mofu-shadow-light: rgba(88, 126, 161, 0.1); 
+            --mofu-shadow-soft: rgba(0, 0, 0, 0.04); 
+        }
 
-    /* ===== HEADER / NAVBAR BARU ===== */
-    .header-nav {
-      background-color: #ffffff;
-      border: 1px solid #e9ecef;
-      border-radius: 50px;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      margin-top: 20px; /* Jarak dari atas */
-    }
+        body {
+            margin: 0;
+            background-color: var(--mofu-blue-bg); 
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            color: var(--mofu-dark-text); 
+        }
 
-    .header-nav .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #111827 !important;
-    }
+        .header-nav {
+            background-color: #ffffff;
+            border: 1px solid var(--mofu-light-border);
+            border-radius: 40px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px -2px var(--mofu-shadow-light); 
+            margin-top: 20px;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 8px; /* Jarak antar menu */
-    }
+        .header-nav .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--mofu-dark-text) !important; 
+        }
 
-    .nav-links a {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #6c757d; /* Warna teks abu-abu */
-      font-weight: 500;
-      transition: background-color 0.2s ease, color 0.2s ease;
-      position: relative; /* Diperlukan untuk garis bawah */
-      padding-bottom: 10px; /* Beri sedikit ruang untuk garis bawah */
-      }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
 
-    .nav-links a.active {
-      color: #111827 !important; /* Ubah warna teks menjadi hitam saat aktif */
-      font-weight: 600; /* Buat sedikit lebih tebal */
-      background-color: transparent; /* Pastikan tidak ada warna latar belakang */
-    }
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--mofu-blue-text); 
+            font-weight: 500;
+            transition: color 0.2s ease, background-color 0.2s ease; 
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-    .nav-links a.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px; /* Lebar garis bawah */
-      height: 3px;  /* Ketebalan garis bawah */
-      background-color: #111827; /* Warna garis bawah (hitam) */
-      border-radius: 2px;
-    }
+        .nav-links a:hover {
+            color: var(--mofu-dark-text);
+            background-color: var(--mofu-blue-bg); 
+        }
 
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        .nav-links a.active {
+            color: var(--mofu-dark-text) !important; 
+            font-weight: 600;
+        }
 
-    .user-profile img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: var(--mofu-yellow-accent);
+            border-radius: 2px;
+        }
 
-    .user-profile .user-name {
-      font-weight: 600;
-      color: #343a40;
-    }
-    
-    .user-profile .fa-chevron-down {
-        color: #6c757d;
-    }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    /* Menghilangkan tombol burger default */
-    .navbar-toggler {
-        display: none;
-    }
-
-    /* ===== MAIN CONTENT ===== */
-    .main-content {
-      padding: 20px 0; /* Memberi jarak di bawah header */
-    }
-
-    .slide {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .slide.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
+<<<<<<< HEAD
     /* Menyesuaikan style lama agar tidak bentrok */
     .dashboard-hero {
       width: 100%;
@@ -144,10 +120,116 @@
     }
 
   </style>
+=======
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--mofu-light-border); /* Border pada foto profil */
+        }
+
+        .user-profile .user-name {
+            font-weight: 600;
+            color: var(--mofu-dark-text); /* Nama user lebih gelap */
+        }
+
+        .content-card {
+            background: #ffffff;
+            border: 1px solid var(--mofu-light-border); 
+            border-radius: 40px;
+            width: 100%;
+            box-shadow: 0 4px 8px -2px var(--mofu-shadow-soft); 
+            color: var(--mofu-dark-text); 
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        /*
+        ==============================================
+        CUSTOM BUTTON STYLE: ADD NEW
+        ==============================================
+        */
+        .btn-add-new {
+            background-color: #ffffff;
+            color: var(--mofu-yellow-accent);
+            border: 1px solid var(--mofu-yellow-accent); 
+            border-radius: 50px; 
+            padding: 0.5rem 1.25rem;
+            font-weight: 600;
+            
+            /* Untuk merapikan ikon dan teks */
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; 
+            transition: all 0.2s ease-in-out; 
+        }
+
+        /* Efek saat cursor mouse di atas tombol */
+        .btn-add-new:hover {
+            background-color:var(--mofu-dark-text); 
+            color: #ffffff; 
+            border-color: var(--mofu-dark-text); 
+        }
+
+        /* --- Tambahan untuk KPI Cards (dari dashboard) --- */
+        .kpi-card .card-body {
+            display: flex;
+            align-items: center;
+        }
+        .kpi-card .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: white; /* Ikon tetap putih */
+        }
+
+        .kpi-card .icon-circle.bg-success { background-color: #6fb07f !important; } /* Hijau lembut */
+        .kpi-card .icon-circle.bg-primary { background-color: var(--mofu-blue-text) !important; } /* Biru teks mofusand */
+        .kpi-card .icon-circle.bg-warning { background-color: var(--mofu-yellow-accent) !important; } /* Kuning aksen mofusand */
+        .kpi-card .icon-circle.bg-danger { background-color: #e57373 !important; } /* Merah lembut */
+
+        .kpi-card .card-subtitle { color: var(--mofu-blue-text) !important; } /* Subtitle kpi */
+        .kpi-card .card-title { color: var(--mofu-dark-text) !important; } /* Judul kpi */
+        
+        /* Untuk tabel (jika ada) */
+        .table thead {
+            background-color: var(--mofu-blue-text); /* Header tabel */
+            color: white;
+        }
+        .table tbody tr:hover {
+            background-color: var(--mofu-blue-bg); /* Hover baris tabel */
+        }
+
+        /* Pagination */
+        .pagination .page-item .page-link {
+            color: var(--mofu-blue-text);
+            border-color: var(--mofu-light-border);
+        }
+        .pagination .page-item.active .page-link {
+            background-color: var(--mofu-blue-text);
+            border-color: var(--mofu-blue-text);
+            color: white;
+        }
+        .pagination .page-item .page-link:hover {
+            background-color: var(--mofu-blue-bg);
+            border-color: var(--mofu-blue-text);
+            color: var(--mofu-dark-text);
+        }
+       
+        
+    </style>
+    @stack('styles') {{-- Slot untuk CSS tambahan per halaman --}}
+>>>>>>> 149446c6253aa5270920b7f47d77a2bff667845f
 </head>
 <body>
 
 <div class="container-fluid">
+<<<<<<< HEAD
     <nav class="header-nav">
         <a class="navbar-brand" href="#">Mofu Cafe</a>
 
@@ -232,5 +314,17 @@
 </script>
 @yield('scripts')
 @yield('content')
+=======
+    @include('layouts.partials.header')
+
+    <main id="swup" class="main-content transition-fade">
+        @yield('content')
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@yield('scripts')
+
+>>>>>>> 149446c6253aa5270920b7f47d77a2bff667845f
 </body>
 </html>

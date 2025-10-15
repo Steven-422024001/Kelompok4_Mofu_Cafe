@@ -28,6 +28,7 @@ class Supplier extends Model
         'phone',
         'address',
         'notes',
+        'status'
     ];
 
     public function get_supplier(){

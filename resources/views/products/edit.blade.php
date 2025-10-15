@@ -36,7 +36,7 @@
                                     @foreach ($product['categories'] as $category)
                                     <option value="{{ $category->id }}" 
                                     @if(old("product_category_id", $data['product']->product_category_id) == $category->id) selected @endif >
-                                    {{ $category->product_category_name }}</option>
+                                    {{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('product_category_id')

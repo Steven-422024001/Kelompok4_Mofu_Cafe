@@ -24,7 +24,7 @@
                         <div class="card-body">
                             <h3>{{ $product->title }}</h3>
                             <hr/>
-                            <p>Category: {{ $product->product_category_name }}</p>
+                            <p>Category: {{ $product->name }}</p>
                             <hr/>
                             <p>Supplier: {{ $product->supplier_name }}</p>
                             <hr/>

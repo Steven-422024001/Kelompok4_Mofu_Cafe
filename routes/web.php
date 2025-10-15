@@ -1,16 +1,18 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
-
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
 
-//route resource for products
-Route::resource('/products', \App\Http\Controllers\ProductController::class);
-Route::resource('category', App\Http\Controllers\CategoryController::class);
+// Route untuk halaman utama/dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-//route resource for suppliers  
-Route::resource('suppliers', \App\Http\Controllers\SupplierController::class);
+// Route untuk semua fitur CRUD (Create, Read, Update, Delete)
+Route::resource('products', ProductController::class);
+Route::resource('suppliers', SupplierController::class);
+Route::resource('transaksi', TransaksiController::class);
+Route::resource('category', CategoryController::class);
