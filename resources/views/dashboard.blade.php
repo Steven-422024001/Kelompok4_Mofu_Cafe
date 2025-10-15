@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- Header Sambutan --}}
-<div class="content-card">
+
     <div class="mb-4">
         <h5 class="fw-bold">Selamat Datang, Admin Mofu! 👋</h5>
         <p class="text-muted">Berikut adalah ringkasan aktivitas di Mofu Cafe hari ini.</p>

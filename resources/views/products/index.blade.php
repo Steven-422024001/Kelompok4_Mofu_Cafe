@@ -2,6 +2,8 @@
 
 @section('title', 'Daftar Produk')
 
+@section('page-title', 'Product Management')
+
 @section('content')
 <div class="content-card">
     <div class="d-flex justify-content-between align-items-center mb-4">

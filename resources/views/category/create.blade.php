@@ -2,6 +2,8 @@
 
 @section('title', 'Add New Category')
 
+@section('page-title', 'Add New Category')
+
 @section('content')
 <div class="content-card">
     {{-- Header Halaman --}}
@@ -10,7 +12,9 @@
             <h5 class="fw-bold mb-1">Add New Category</h5>
             <p class="text-muted mb-0">Buat kategori baru untuk produk Anda.</p>
         </div>
-        <a href="{{ route('category.index') }}" class="btn btn-outline-secondary">Back to List</a>
+        <a href="{{ route('category.index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Back to List
+        </a>
     </div>
 
     {{-- Form --}}

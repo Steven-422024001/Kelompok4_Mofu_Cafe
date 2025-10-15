@@ -8,116 +8,114 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    {{-- Di sini kita akan menaruh semua CSS --}}
     <style>
         :root {
-            /* Palet Warna Mofusand */
+            /* Palet Warna Mofusand yang Diperbarui */
             --mofu-blue-bg: #e0f2f7; 
-            --mofu-blue-text: #5a7d9a; 
+            --mofu-sidebar-bg: #7096b6; /* Warna baru untuk sidebar */
             --mofu-dark-text: #303f56; 
-            --mofu-text-muted: #6c757d;
             --mofu-yellow-accent: #ffb347; 
-            --mofu-light-border: #d0e6ed; 
-            --mofu-shadow-light: rgba(88, 126, 161, 0.1); 
-            --mofu-shadow-soft: rgba(0, 0, 0, 0.04); 
+            --mofu-light-border: #d0e6ed;
+            --mofu-shadow-soft: rgba(0, 0, 0, 0.04);
+            --card-bg: #ffffff;
         }
 
         body {
             margin: 0;
-            background-color: var(--mofu-blue-bg); 
+            background-color: var(--mofu-blue-bg);
             font-family: 'Quicksand', sans-serif;
             font-weight: 500;
-            color: var(--mofu-dark-text); 
+        }
+        .page-wrapper {
+            display: flex;
         }
 
-        .header-nav {
-            background-color: #ffffff;
+        /* ===== SIDEBAR DENGAN WARNA BARU ===== */
+        .sidebar {
+            width: 260px;
+            background-color: var(--mofu-sidebar-bg); /* Latar belakang sidebar diubah */
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar .brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff; /* Teks brand menjadi putih */
+            text-align: center;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+        .sidebar .nav-title {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6); /* Judul navigasi menjadi putih transparan */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.85); /* Teks link menjadi putih lembut */
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        .sidebar-nav .nav-link i {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        .sidebar-nav .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.15); /* Efek hover menjadi lebih gelap */
+            color: #ffffff; /* Teks hover menjadi putih solid */
+        }
+        .sidebar-nav .nav-link.active {
+            background-color: var(--mofu-yellow-accent); /* Link aktif tetap kuning agar menonjol */
+            color: var(--mofu-dark-text); /* Teks link aktif menjadi gelap agar kontras */
+        }
+        .sidebar .sidebar-footer {
+            margin-top: auto;
+        }
+        
+        /* ===== PAGE CONTENT (Tidak ada perubahan di sini) ===== */
+        .page-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 1.5rem;
+        }
+        .content-header {
+            background-color: var(--card-bg);
             border: 1px solid var(--mofu-light-border);
-            border-radius: 40px;
-            padding: 12px 24px;
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 8px -2px var(--mofu-shadow-light); 
-            margin-top: 20px;
+            box-shadow: 0 1px 3px 0 var(--mofu-shadow-soft);
+            margin-bottom: 1.5rem;
         }
-
-        .header-nav .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--mofu-dark-text) !important; 
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-links a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--mofu-blue-text); 
-            font-weight: 500;
-            transition: color 0.2s ease, background-color 0.2s ease; 
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .nav-links a:hover {
-            color: var(--mofu-dark-text);
-            background-color: var(--mofu-blue-bg); 
-        }
-
-        .nav-links a.active {
-            color: var(--mofu-dark-text) !important; 
-            font-weight: 600;
-        }
-
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 3px;
-            background-color: var(--mofu-yellow-accent);
-            border-radius: 2px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
         .user-profile img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid var(--mofu-light-border); /* Border pada foto profil */
         }
-
-        .user-profile .user-name {
-            font-weight: 600;
-            color: var(--mofu-dark-text); /* Nama user lebih gelap */
-        }
-
         .content-card {
-            background: #ffffff;
-            border: 1px solid var(--mofu-light-border); 
-            border-radius: 40px;
-            width: 100%;
-            box-shadow: 0 4px 8px -2px var(--mofu-shadow-soft); 
-            color: var(--mofu-dark-text); 
-            padding: 30px;
-            margin-top: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--mofu-light-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 var(--mofu-shadow-soft);
+            color: var(--mofu-dark-text);
+            padding: 1.5rem;
         }
 
         /*
@@ -165,8 +163,8 @@
         }
 
         .kpi-card .icon-circle.bg-success { background-color: #6fb07f !important; } /* Hijau lembut */
-        .kpi-card .icon-circle.bg-primary { background-color: var(--mofu-blue-text) !important; } /* Biru teks mofusand */
-        .kpi-card .icon-circle.bg-warning { background-color: var(--mofu-yellow-accent) !important; } /* Kuning aksen mofusand */
+        .kpi-card .icon-circle.bg-primary { background-color: #639fd0ff !important; } /* Biru teks mofusand */
+        .kpi-card .icon-circle.bg-warning { background-color: #ffb347 !important; } /* Kuning aksen mofusand */
         .kpi-card .icon-circle.bg-danger { background-color: #e57373 !important; } /* Merah lembut */
 
         .kpi-card .card-subtitle { color: var(--mofu-blue-text) !important; } /* Subtitle kpi */
@@ -196,19 +194,35 @@
             border-color: var(--mofu-blue-text);
             color: var(--mofu-dark-text);
         }
-       
-        
+    
+        /* ===== FOOTER ===== */
+        .app-footer {
+            text-align: center; /* Membuat gambar di tengah */
+            padding: 30px 0;    /* Memberi jarak atas dan bawah */
+            margin-top: 50px;   /* Memberi jarak dari konten di atasnya */
+        }
+
+        .footer-image {
+            width: 100%;   /* Atur ukuran maksimal gambar, sesuaikan jika perlu */
+            height: auto;       /* Menjaga proporsi gambar */
+            opacity: 0.9;       /* Membuat gambar sedikit transparan agar tidak terlalu mencolok */
+        }
+
     </style>
-    @stack('styles') {{-- Slot untuk CSS tambahan per halaman --}}
+    @stack('styles')
 </head>
 <body>
 
-<div class="container-fluid">
-    @include('layouts.partials.header')
+<div class="page-wrapper">
+    @include('layouts.partials.sidebar')
 
-    <main id="swup" class="main-content transition-fade">
-        @yield('content')
-    </main>
+    <div class="page-content">
+        @include('layouts.partials.content-header')
+
+        <main class="main-content">
+            @yield('content')
+        </main>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -216,3 +230,4 @@
 
 </body>
 </html>
+

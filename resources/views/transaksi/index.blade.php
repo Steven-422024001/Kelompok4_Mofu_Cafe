@@ -2,8 +2,10 @@
 
 @section('title', 'Dashboard Transaksi - Mofu Cafe')
 
+@section('page-title', 'Transaction Management')
+
 @section('content')
-<div class="content-card">
+
 
     {{-- Header dan Tombol Aksi --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
