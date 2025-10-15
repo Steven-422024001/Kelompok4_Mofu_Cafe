@@ -13,12 +13,17 @@
         :root {
             /* Palet Warna Mofusand yang Diperbarui */
             --mofu-blue-bg: #e0f2f7; 
-            --mofu-sidebar-bg: #7096b6; /* Warna baru untuk sidebar */
+            --mofu-sidebar-bg: #7096b6;
             --mofu-dark-text: #303f56; 
             --mofu-yellow-accent: #ffb347; 
             --mofu-light-border: #d0e6ed;
             --mofu-shadow-soft: rgba(0, 0, 0, 0.04);
             --card-bg: #ffffff;
+
+            --status-red: #e27b7bff;
+            --status-purple: #b66adaff;
+            --status-green: #69d194ff;
+            --status-blue: #65a8d5ff;
         }
 
         body {
@@ -76,18 +81,18 @@
             text-align: center;
         }
         .sidebar-nav .nav-link:hover {
-            background-color: rgba(0, 0, 0, 0.15); /* Efek hover menjadi lebih gelap */
-            color: #ffffff; /* Teks hover menjadi putih solid */
+            background-color: rgba(0, 0, 0, 0.15); 
+            color: #ffffff; 
         }
         .sidebar-nav .nav-link.active {
-            background-color: var(--mofu-yellow-accent); /* Link aktif tetap kuning agar menonjol */
-            color: var(--mofu-dark-text); /* Teks link aktif menjadi gelap agar kontras */
+            background-color: rgba(0, 0, 0, 0.15); 
+            color: #ffffff; 
         }
         .sidebar .sidebar-footer {
             margin-top: auto;
         }
         
-        /* ===== PAGE CONTENT (Tidak ada perubahan di sini) ===== */
+        /* ===== PAGE CONTENT ===== */
         .page-content {
             margin-left: 260px;
             width: calc(100% - 260px);
@@ -116,6 +121,7 @@
             box-shadow: 0 1px 3px 0 var(--mofu-shadow-soft);
             color: var(--mofu-dark-text);
             padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         /*
@@ -140,36 +146,55 @@
 
         /* Efek saat cursor mouse di atas tombol */
         .btn-add-new:hover {
-            background-color:var(--mofu-dark-text); 
-            color: #ffffff; 
-            border-color: var(--mofu-dark-text); 
+            background-color: var(--mofu-yellow-accent);
+            border-color: var(--mofu-yellow-accent);
+            color: var(--mofu-dark-text);
         }
 
-        /* --- Tambahan untuk KPI Cards (dari dashboard) --- */
-        .kpi-card .card-body {
-            display: flex;
-            align-items: center;
+        /* ===== GAYA BARU UNTUK KPI CARDS DASHBOARD ===== */
+        .dashboard-kpi-card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
         }
-        .kpi-card .icon-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        .dashboard-kpi-card .icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 1.5rem;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 15px;
-            color: white; /* Ikon tetap putih */
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .dashboard-kpi-card .title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-kpi-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem; /* Disesuaikan agar pas */
+        }
+        .dashboard-kpi-card .details {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            letter-spacing: 1px;
         }
 
-        .kpi-card .icon-circle.bg-success { background-color: #6fb07f !important; } /* Hijau lembut */
-        .kpi-card .icon-circle.bg-primary { background-color: #639fd0ff !important; } /* Biru teks mofusand */
-        .kpi-card .icon-circle.bg-warning { background-color: #ffb347 !important; } /* Kuning aksen mofusand */
-        .kpi-card .icon-circle.bg-danger { background-color: #e57373 !important; } /* Merah lembut */
 
-        .kpi-card .card-subtitle { color: var(--mofu-blue-text) !important; } /* Subtitle kpi */
-        .kpi-card .card-title { color: var(--mofu-dark-text) !important; } /* Judul kpi */
-        
+        .dashboard-kpi-card.bg-red { background-color: var(--status-red); }
+        .dashboard-kpi-card.bg-purple { background-color: var(--status-purple); }
+        .dashboard-kpi-card.bg-green { background-color: var(--status-green); }
+        .dashboard-kpi-card.bg-blue { background-color: var(--status-blue); }
+                
         /* Untuk tabel (jika ada) */
         .table thead {
             background-color: var(--mofu-blue-text); /* Header tabel */
@@ -195,18 +220,57 @@
             color: var(--mofu-dark-text);
         }
     
-        /* ===== FOOTER ===== */
-        .app-footer {
-            text-align: center; /* Membuat gambar di tengah */
-            padding: 30px 0;    /* Memberi jarak atas dan bawah */
-            margin-top: 50px;   /* Memberi jarak dari konten di atasnya */
+        /* ===== STYLE TOMBOL UTAMA APLIKASI ===== */
+        .btn-primary { background-color: var(--mofu-sidebar-bg); border: none; }
+        
+        .btn-app-primary, .btn-app-secondary {
+            font-weight: 600;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+            padding: 0.5rem 1rem;
         }
 
-        .footer-image {
-            width: 100%;   /* Atur ukuran maksimal gambar, sesuaikan jika perlu */
-            height: auto;       /* Menjaga proporsi gambar */
-            opacity: 0.9;       /* Membuat gambar sedikit transparan agar tidak terlalu mencolok */
+        /* Tombol Aksi Utama (Save, Update, Edit) */
+        .btn-app-primary {
+            border-color: var(--mofu-yellow-accent);
+            color: var(--mofu-yellow-accent);
         }
+        .btn-app-primary:hover {
+            background-color: var(--mofu-yellow-accent);
+            border-color: var(--mofu-yellow-accent);
+            color: var(--mofu-dark-text);
+        }
+
+        /* Tombol Aksi Sekunder (Back, Cancel) */
+        .btn-app-secondary {
+            background-color: transparent;
+            border-color: var(--mofu-sidebar-bg);
+            color: var(--mofu-sidebar-bg);
+        }
+        .btn-app-secondary:hover {
+            background-color: var(--mofu-sidebar-bg);
+            border-color: var(--mofu-sidebar-bg);
+            color: var(--mofu-dark-text);
+        }
+
+        /* ===== STYLE UNTUK ACTION BUTTONS ===== */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-buttons a, .action-buttons button {
+            width: 32px; height: 32px; display: inline-flex;
+            align-items: center; justify-content: center;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+        }
+        .action-buttons .btn-dark { background-color: #e2e8f0; color: #4a5568; border: none; }
+        .action-buttons .btn-dark:hover { background-color: #cbd5e1; }
+        .action-buttons .btn-primary { background-color: #e0e7ff; color: #4338ca; border: none; }
+        .action-buttons .btn-primary:hover { background-color: #c7d2fe; }
+        .action-buttons .btn-danger { background-color: #fee2e2; color: #b91c1c; border: none; }
+        .action-buttons .btn-danger:hover { background-color: #fecaca; }
 
     </style>
     @stack('styles')

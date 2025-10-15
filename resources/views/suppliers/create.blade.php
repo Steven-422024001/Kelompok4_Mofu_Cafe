@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'Add New Supplier')
+@section('title', 'Tambah Supplier Baru')
+@section('page-title', 'Tambah Supplier Baru')
 
 @section('content')
 <div class="content-card">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h5 class="fw-bold mb-1">Add New Supplier</h5>
-            <p class="text-muted mb-0">Register a new supplier for Mofu Cafe 📦</p>
+            <h5 class="fw-bold mb-1">Tambah Supplier Baru</h5>
         </div>
-        <a href="{{ route('suppliers.index') }}" class="btn btn-outline-secondary">Back to List</a>
+            <a href="{{ route('suppliers.index') }}" class="btn btn-app-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Kembali
+            </a>
     </div>
 
     <form id="supplierForm" action="{{ route('suppliers.store') }}" method="POST">
@@ -18,7 +20,7 @@
             <div class="col-md-8">
                 {{-- Kolom Kiri: Input Utama --}}
                 <div class="mb-3">
-                    <label for="supplier_name" class="form-label fw-semibold">SUPPLIER NAME</label>
+                    <label for="supplier_name" class="form-label fw-semibold">NAMA SUPPLIER</label>
                     <input type="text" class="form-control @error('supplier_name') is-invalid @enderror" id="supplier_name" name="supplier_name" value="{{ old('supplier_name') }}" placeholder="e.g., Kopi Jaya Abadi">
                     @error('supplier_name')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -26,14 +28,14 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="contact_name" class="form-label fw-semibold">CONTACT NAME (PIC)</label>
+                        <label for="contact_name" class="form-label fw-semibold">NAMA KONTAK (PIC)</label>
                         <input type="text" class="form-control @error('contact_name') is-invalid @enderror" id="contact_name" name="contact_name" value="{{ old('contact_name') }}" placeholder="e.g., Budi Santoso">
                         @error('contact_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="phone" class="form-label fw-semibold">PHONE</label>
+                        <label for="phone" class="form-label fw-semibold">TELEPON</label>
                         <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" placeholder="e.g., 08123456789">
                         @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -41,7 +43,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="address" class="form-label fw-semibold">ADDRESS</label>
+                    <label for="address" class="form-label fw-semibold">ALAMAT</label>
                     <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3" placeholder="Masukkan Alamat Lengkap Supplier">{{ old('address') }}</textarea>
                     @error('address')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -67,15 +69,14 @@
                     </div>
                 </div>
                  <div class="mb-3">
-                    <label for="notes" class="form-label fw-semibold">NOTES</label>
+                    <label for="notes" class="form-label fw-semibold">CATATAN</label>
                     <textarea class="form-control" name="notes" id="notes" rows="4" placeholder="Catatan tambahan seperti jadwal pengiriman, item khusus, dll.">{{ old('notes') }}</textarea>
                 </div>
             </div>
         </div>
         
-        <div class="mt-4 border-top pt-4">
-            <button type="submit" class="btn btn-primary">SAVE SUPPLIER</button>
-            <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">CANCEL</a>
+        <div class="mt-4 border-top pt-4 d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">Simpan Supplier</button>
         </div>
     </form>
 </div>

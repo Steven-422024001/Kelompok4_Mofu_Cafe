@@ -4,60 +4,45 @@
 
 @section('content')
     {{-- Header Sambutan --}}
-
+<div class="content-card">
     <div class="mb-4">
         <h5 class="fw-bold">Selamat Datang, Admin Mofu! 👋</h5>
         <p class="text-muted">Berikut adalah ringkasan aktivitas di Mofu Cafe hari ini.</p>
     </div>
 
-    {{-- KPI Cards --}}
+    {{-- KPI Cards --}} 
     <div class="row">
         <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card kpi-card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="icon-circle bg-success text-white"><i class="bi bi-cash-coin"></i></div>
-                    <div>
-                        <h6 class="card-subtitle mb-1 text-muted">Pendapatan Hari Ini</h6>
-                        <h4 class="card-title mb-0">Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</h4>
-                    </div>
-                </div>
+            {{-- Menggunakan style baru 'dashboard-kpi-card' dengan isi dari kode lama Anda --}}
+            <div class="dashboard-kpi-card bg-red">
+                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                <p class="title">Pendapatan Hari Ini</p>
+                <h4 class="value">Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</h4>
             </div>
         </div>
         <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card kpi-card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="icon-circle bg-primary text-white"><i class="bi bi-receipt"></i></div>
-                    <div>
-                        <h6 class="card-subtitle mb-1 text-muted">Transaksi Hari Ini</h6>
-                        <h4 class="card-title mb-0">{{ $jumlahTransaksiHariIni }} Transaksi</h4>
-                    </div>
-                </div>
+            <div class="dashboard-kpi-card bg-purple">
+                <div class="icon"><i class="fas fa-receipt"></i></div>
+                <p class="title">Transaksi Hari Ini</p>
+                <h4 class="value">{{ $jumlahTransaksiHariIni }} Transaksi</h4>
             </div>
         </div>
         <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card kpi-card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="icon-circle bg-warning text-white"><i class="bi bi-box-seam"></i></div>
-                    <div>
-                        <h6 class="card-subtitle mb-1 text-muted">Total Produk</h6>
-                        <h4 class="card-title mb-0">{{ $totalProduk }} Jenis</h4>
-                    </div>
-                </div>
+            <div class="dashboard-kpi-card bg-green">
+                <div class="icon"><i class="fas fa-box-open"></i></div>
+                <p class="title">Total Produk</p>
+                <h4 class="value">{{ $totalProduk }} Jenis</h4>
             </div>
         </div>
         <div class="col-md-6 col-lg-3 mb-4">
-            <div class="card kpi-card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <div class="icon-circle bg-danger text-white"><i class="bi bi-truck"></i></div>
-                    <div>
-                        <h6 class="card-subtitle mb-1 text-muted">Total Supplier</h6>
-                        <h4 class="card-title mb-0">{{ $totalSupplier }} Supplier</h4>
-                    </div>
-                </div>
+            <div class="dashboard-kpi-card bg-blue">
+                <div class="icon"><i class="fas fa-truck"></i></div>
+                <p class="title">Total Supplier</p>
+                <h4 class="value">{{ $totalSupplier }} Supplier</h4>
             </div>
         </div>
     </div>
-
+</div>
     {{-- Konten Utama: Grafik dan Aktivitas Terbaru --}}
     <div class="row">
         {{-- Kolom Grafik --}}

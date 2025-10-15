@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Supplier Management - Mofu Cafe')
-@section('page-title', 'Supplier Management')
+@section('title', 'Manajemen Supplier - Mofu Cafe')
+@section('page-title', 'Manajemen Supplier')
 
 @push('styles')
 <style>
@@ -52,7 +52,7 @@
 @section('content')
 
     {{-- Bagian 1: Ringkasan Status (KPI Cards) --}}
-    <div class="row mb-5">
+    <div class="row mb-2">
         {{-- Card Total Suppliers --}}
         <div class="col-lg-3 col-md-6 mb-3">
             <div class="summary-card summary-card--total">
@@ -60,7 +60,7 @@
                     <i class="fas fa-truck-field"></i>
                 </div>
                 <div>
-                    <p class="summary-title mb-1">Total Suppliers</p>
+                    <p class="summary-title mb-1">Total Supplier</p>
                     <h3 class="summary-value">{{ $totalSuppliers }}</h3>
                 </div>
             </div>
@@ -104,23 +104,27 @@
     </div>
 
     {{-- Bagian 2: Tabel Data --}}
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <h5 class="card-title mb-0 fw-bold">All Suppliers</h5>
-            <div class="d-flex gap-2">
-                <a href="{{ route('suppliers.create') }}" class="btn btn-add-new">
-                    <i class="fas fa-plus"></i> Add Supplier
-                </a>
-            </div>
+<div class="content-card">    
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+            <h5 class="card-title mb-0 fw-bold">Semua Supplier</h5>
+            <p class="text-muted mb-0">Kelola semua data pemasok untuk kebutuhan Mofu Cafe di sini 🚚</p>
+        </div> 
+        <div class="d-flex gap-2">
+            <a href="{{ route('suppliers.create') }}" class="btn btn-add-new">
+                <i class="fas fa-plus"></i> Tambah Supplier
+            </a>
         </div>
+    </div>
+    <div class="card mt-3 border-0 shadow-sm">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" class="ps-3">SUPPLIER NAME</th>
-                        <th scope="col">PHONE</th>
+                        <th scope="col" class="ps-3">NAMA SUPPLIER</th>
+                        <th scope="col">TELEPON</th>
                         <th scope="col">STATUS</th>
-                        <th scope="col">ACTIONS</th>
+                        <th scope="col">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>

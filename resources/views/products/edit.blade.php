@@ -1,133 +1,158 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Product - ' . $data['product']->title)
+@section('title', 'Edit Produk - ' . $data['product']->title)
+@section('page-title', 'Edit Produk')
+
+@push('styles')
+<style>
+    /* Styling untuk preview gambar */
+    .image-preview-container {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border: 2px dashed var(--mofu-light-border);
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--mofu-blue-bg);
+        overflow: hidden;
+    }
+    .image-preview-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .image-preview-container .preview-text {
+        color: var(--mofu-blue-text);
+        font-weight: 600;
+    }
+</style>
+@endpush
 
 @section('content')
-<div class="container-fluid bg-light p-4 rounded-4" style="min-height: 100vh;">
-    <div class="bg-white shadow-sm rounded-4 p-4">
-        <h4 class="fw-bold mb-4">Edit Product</h4>
-        <p class="text-muted mb-4">You are editing: <strong>{{ $data['product']->title }}</strong></p>
+<div class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="fw-bold mb-1">Edit Produk</h5>
+            <p class="text-muted mb-0">Anda sedang mengubah: <strong>{{ $data['product']->title }}</strong></p>
+        </div>
+        <a href="{{ route('products.index') }}" class="btn btn-app-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar
+        </a>
+    </div>
 
-        <form action="{{ route('products.update', $data['product']->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+    <form action="{{ route('products.update', $data['product']->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="row">
+            {{-- Kolom Kiri: Gambar --}}
+            <div class="col-md-4">
+                <div class="image-preview-container mb-3">
+                    <img id="image-preview" src="{{ asset('storage/images/' . $data['product']->image) }}" alt="{{ $data['product']->title }}">
+                    <span id="preview-text" class="preview-text" style="display: none;">Pratinjau Gambar</span>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label fw-semibold">UBAH GAMBAR (OPSIONAL)</label>
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
+                    @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
 
-            <div class="row">
-                {{-- Gambar Produk --}}
-                <div class="col-md-4 text-center">
-                    <div class="border rounded-4 shadow-sm p-3 bg-light mb-4">
-                        @if ($data['product']->image)
-                            <img 
-                                src="{{ asset('storage/images/' . $data['product']->image) }}" 
-                                alt="{{ $data['product']->title }}" 
-                                class="img-fluid rounded-3" 
-                                style="max-height: 250px; object-fit: contain;">
-                        @else
-                            <div class="text-muted small fst-italic">No image available</div>
-                        @endif
-                    </div>
-
-                    <div class="form-group">
-                        <label class="fw-semibold">Change Image</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
-                        @error('image')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+            {{-- Kolom Kanan: Detail Produk --}}
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label for="title" class="form-label fw-semibold">NAMA PRODUK</label>
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $data['product']->title) }}">
+                    @error('title')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                {{-- Form Detail --}}
-                <div class="col-md-8">
-
-                    <div class="mb-3">
-                        <label for="product_category_id" class="fw-semibold">Category</label>
-                        <select class="form-control" id="product_category_id" name="product_category_id">
-                            <option value="">-- Select Category Product --</option>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="product_category_id" class="form-label fw-semibold">KATEGORI</label>
+                        <select class="form-select @error('product_category_id') is-invalid @enderror" id="product_category_id" name="product_category_id">
+                            <option value="">-- Pilih Kategori --</option>
                             @foreach ($product['categories'] as $category)
-                                <option value="{{ $category->id }}" 
-                                    @if(old('product_category_id', $data['product']->product_category_id) == $category->id) selected @endif>
+                                <option value="{{ $category->id }}" {{ old('product_category_id', $data['product']->product_category_id) == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
                         @error('product_category_id')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
-                    <div class="mb-3">
-                        <label for="supplier_id" class="fw-semibold">Supplier</label>
-                        <select class="form-control" id="supplier_id" name="supplier_id">
-                            <option value="">-- Select Supplier --</option>
+                    <div class="col-md-6 mb-3">
+                        <label for="supplier_id" class="form-label fw-semibold">SUPPLIER</label>
+                        <select class="form-select @error('supplier_id') is-invalid @enderror" id="supplier_id" name="supplier_id">
+                            <option value="">-- Pilih Supplier --</option>
                             @foreach ($product['suppliers_'] as $supplier)
-                                <option value="{{ $supplier->id }}" 
-                                    @if(old('supplier_id', $data['product']->supplier_id) == $supplier->id) selected @endif>
+                                <option value="{{ $supplier->id }}" {{ old('supplier_id', $data['product']->supplier_id) == $supplier->id ? 'selected' : '' }}>
                                     {{ $supplier->supplier_name }}
                                 </option>
                             @endforeach
                         </select>
                         @error('supplier_id')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="fw-semibold">Title</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" 
-                               name="title" value="{{ old('title', $data['product']->title) }}" 
-                               placeholder="Enter Product Title">
-                        @error('title')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label fw-semibold">HARGA</label>
+                        <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price', $data['product']->price) }}">
+                        @error('price')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
-                   <div class="mb-3">
-                        <label class="fw-semibold">Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" 
-                                name="description" rows="5"
-                                placeholder="Enter Product Description">{{ strip_tags(old('description', $data['product']->description)) }}</textarea>
-                        @error('description')
-                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                    <div class="col-md-6 mb-3">
+                        <label for="stock" class="form-label fw-semibold">STOK</label>
+                        <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock', $data['product']->stock) }}">
+                        @error('stock')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
 
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="fw-semibold">Price</label>
-                            <input type="number" class="form-control @error('price') is-invalid @enderror" 
-                                   name="price" value="{{ old('price', $data['product']->price) }}" 
-                                   placeholder="Enter Product Price">
-                            @error('price')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="fw-semibold">Stock</label>
-                            <input type="number" class="form-control @error('stock') is-invalid @enderror" 
-                                   name="stock" value="{{ old('stock', $data['product']->stock) }}" 
-                                   placeholder="Enter Product Stock">
-                            @error('stock')
-                                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end gap-2 mt-4">
-                        <button type="submit" class="btn btn-secondary px-4 rounded-3">Update</button>
-                        <button type="reset" class="btn btn-warning px-4 rounded-3 text-white">Reset</button>
-                        <a href="{{ route('products.index') }}" class="btn btn-outline-secondary px-4 rounded-3">Cancel</a>
-                    </div>
-
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">DESKRIPSI</label>
+                    <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="5">{{ old('description', $data['product']->description) }}</textarea>
+                    @error('description')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+        
+        <div class="mt-4 border-top pt-4 d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary">Perbarui Produk</button>
+        </div>
+    </form>
 </div>
+@endsection
 
-{{-- CKEditor --}}
-<script src="https://cdn.ckeditor.com/4.25.1-lts/standard/ckeditor.js"></script>
+@section('scripts')
 <script>
     CKEDITOR.replace('description');
+
+    const imageInput = document.getElementById('image');
+    const imagePreview = document.getElementById('image-preview');
+    const previewText = document.getElementById('preview-text');
+    imageInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            previewText.style.display = 'none';
+            imagePreview.style.display = 'block';
+            reader.onload = function(event) {
+                imagePreview.setAttribute('src', event.target.result);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
 @endsection

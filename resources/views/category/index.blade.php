@@ -1,51 +1,67 @@
 @extends('layouts.app')
 
 @section('title', 'Daftar Kategori - Mofu Cafe')
-
 @section('page-title', 'Category Management')
 
 @push('styles')
-    {{-- Kita tambahkan sedikit style untuk action buttons di dalam kartu --}}
     <style>
+        /* Styling untuk setiap Kartu Kategori */
         .category-card {
+            background-color: var(--mofu-blue-bg); 
+            border: 1px solid var(--mofu-light-border); 
+            border-radius: 0.75rem;
+            box-shadow: none; 
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border: 1px solid var(--mofu-light-border);
-            border-radius: 0.75rem; 
+            display: flex;
+            flex-direction: column;
         }
+
         .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
         }
-        .action-buttons a, .action-buttons button {
-            width: 32px; height: 32px; display: inline-flex;
-            align-items: center; justify-content: center;
-            border-radius: 0.375rem;
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-        .action-buttons .btn-dark { background-color: #e2e8f0; color: #4a5568; border: none; }
-        .action-buttons .btn-dark:hover { background-color: #cbd5e1; }
-        .action-buttons .btn-primary { background-color: #e0e7ff; color: #4338ca; border: none; }
-        .action-buttons .btn-primary:hover { background-color: #c7d2fe; }
-        .action-buttons .btn-danger { background-color: #fee2e2; color: #b91c1c; border: none; }
-        .action-buttons .btn-danger:hover { background-color: #fecaca; }
-        
+
         .card-title {
-            font-size: 25px;
-            font-family: 
+            font-weight: 700;
+            color: var(--mofu-dark-text);
         }
-    
+        
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--mofu-blue-text);
+        }
+
+        .card-description {
+            color: var(--mofu-blue-text);
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+            flex-grow: 1; 
+        }
+        
+        .card-actions {
+            margin-top: auto; 
+            padding-top: 1rem;
+            border-top: 1px solid var(--mofu-light-border);
+        }
     </style>
 @endpush
 
 @section('content')
-
-{{-- Header Halaman --}}
+<div class="content-card">
+    {{-- Header Halaman --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h5 class="fw-bold mb-1">Selamat Datang, Admin Mofu! 👋</h5>
-            <p class="text-muted mb-0">Atur semua kategori produk Mofu Cafe di sini</p>
+            <h5 class="fw-bold mb-1">Semua Kategori</h5>
+            <p class="text-muted mb-0">Kelola semua kategori produk Mofu Cafe di sini 🏷️</p>
         </div>
-                <a href="{{ route('category.create') }}" class="btn btn-add-new">
-            <i class="fas fa-plus"></i> Add Category
+        <a href="{{ route('category.create') }}" class="btn btn-app-primary">
+            <i class="fas fa-plus me-1"></i> Tambah Kategori
         </a>
     </div>
 
@@ -53,30 +69,27 @@
     <div class="row">
         @forelse ($categories as $category)
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card category-card h-100 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        {{-- Bagian Atas: Judul dan Jumlah --}}
+                <div class="card category-card h-100">
+                    <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h5 class="card-title fw-bold">{{ $category->name }}</h5>
+                                <h5 class="card-title">{{ $category->name }}</h5>
                             </div>
-                            <i class="fas fa-tag fa-2x text-light"></i>
+                            <i class="fas fa-tag card-icon"></i>
                         </div>
 
-                        {{-- Deskripsi --}}
-                        <p class="text-muted mt-3 small flex-grow-1">
+                        <p class="card-description">
                             {!! Str::limit($category->description, 100, '...') !!}
                         </p>
 
-                        {{-- Bagian Bawah: Tombol Aksi --}}
-                        <div class="mt-auto d-flex gap-2 action-buttons justify-content-end pt-3 border-top">
-                             <a href="{{ route('category.show', $category->id) }}" class="btn btn-sm btn-dark" title="Show"><i class="fas fa-eye"></i></a>
-                             <a href="{{ route('category.edit', $category->id) }}" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                             <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="form-delete">
-                                 @csrf
-                                 @method('DELETE')
-                                 <button type="submit" class="btn btn-sm btn-danger btn-delete" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                             </form>
+                        <div class="action-buttons justify-content-end d-flex gap-2 card-actions">
+                           <a href="{{ route('category.show', $category->id) }}" class="btn btn-dark" title="Lihat"><i class="fas fa-eye"></i></a>
+                           <a href="{{ route('category.edit', $category->id) }}" class="btn btn-primary" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                           <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="form-delete">
+                               @csrf
+                               @method('DELETE')
+                               <button type="submit" class="btn btn-danger btn-delete" title="Hapus"><i class="fas fa-trash-alt"></i></button>
+                           </form>
                         </div>
                     </div>
                 </div>
@@ -98,7 +111,6 @@
 @endsection
 
 @section('scripts')
-{{-- Script SweetAlert Anda akan bekerja dengan baik di sini --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
